@@ -1,0 +1,20 @@
+<div class="card-wrapper" [class.active]="isActive" (click)="poiClick.emit(poi)">
+    <!-- Immagine COPERTINA 60% -->
+    <div class="card-image">
+        <img [src]="poi.coverImageUrl || photoManagerService.DEFAULT_IMAGE" [alt]="poi.name" class="card-img"
+            (error)="photoManagerService.handleImageError($event)">
+
+        <div class="image-overlay">
+            <i class="ri-arrow-right-line"></i>
+        </div>
+    </div>
+
+
+    <!-- SOLO pillola + titolo -->
+    <div class="card-content">
+        <div class="card-header">
+            <span class="category-pill">{{ poi.areaGroup }}</span>
+        </div>
+        <h3 class="card-title inter">{{ poi.name }}</h3>
+    </div>
+</div>

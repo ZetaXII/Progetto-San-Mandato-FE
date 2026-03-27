@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-light" aria-label="Menu principale">
+    <div class="container-fluid">
+        <!-- LOGO -->
+        <a class="navbar-brand d-flex align-items-center" routerLink="/" aria-label="Torna alla home">
+            <i class="ri-building-2-fill me-2"></i>
+            <span>Progetto San Mandato</span>
+        </a>
+
+        <!-- TOGGLER MOBILE -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Apri menu di navigazione">
+            <i class="ri-menu-line"></i>
+        </button>
+
+        <!-- MENÚ -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- HOME -->
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" routerLink="/" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }" aria-label="Vai alla home">
+                        <i class="ri-home-2-fill me-2"></i>
+                        <span>HOME</span>
+                    </a>
+                </li>
+                <!-- CATALOGO -->
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" routerLink="/catalogo" routerLinkActive="active"
+                        aria-label="Vai al catalogo">
+                        <i class="ri-folder-3-fill me-2"></i>
+                        <span>CATALOGO</span>
+                    </a>
+                </li>
+                <!-- MAPPA GIS -->
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" routerLink="/mappa" routerLinkActive="active"
+                        aria-label="Apri mappa GIS">
+                        <i class="ri-map-fill me-2"></i>
+                        <span>GIS</span>
+                    </a>
+                </li>
+                <!-- ACCEDI -->
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" routerLink="/mappa" routerLinkActive="active"
+                        aria-label="Apri mappa GIS">
+                        <i class="ri-user-3-fill me-2"></i>
+                        <span>ACCEDI</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

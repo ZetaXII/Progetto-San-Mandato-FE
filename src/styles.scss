@@ -1,0 +1,232 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Puritan:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+// Color Palette - Rosso
+$dark-red: #2e020a; // Rosso scuro profondo
+$half-red: #85121c; // Rosso medio caldo  
+$light-red: #9c1520; // Rosso intenso
+
+// Color Palette - Verde
+$dark-green: #0b2e10; // Verde scuro profondo
+$half-green: #1b7a3a; // Verde medio caldo
+$light-green: #3cb04d; // Verde intenso
+
+// Color Palette - Blu
+$dark-blue: #0a1f2e; // Blu scuro profondo
+$half-blue: #1a5e8c; // Blu medio caldo
+$light-blue: #3399ff; // Blu intenso
+
+* {
+    font-family: "Puritan", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Scrollbar Custom */
+::-webkit-scrollbar {
+    width: 8px; // Larghezza sottile
+    height: 8px; // Per scroll orizzontale
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; // Nessun sfondo track
+}
+
+::-webkit-scrollbar-thumb {
+    background: $light-red; // Rosso medio
+    border-radius: 10px; // Arrotondato
+    transition: background 0.3s ease;
+
+    &:hover {
+        background: $light-red; // Rosso chiaro hover
+    }
+}
+
+// Firefox
+* {
+    scrollbar-width: thin;
+    scrollbar-color: $light-red transparent;
+}
+
+
+// LISTA FONT PURITAN (PER TITOLI)
+.puritan-regular {
+    font-family: "Puritan", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.puritan-bold {
+    font-family: "Puritan", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.puritan-regular-italic {
+    font-family: "Puritan", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.puritan-bold-italic {
+    font-family: "Puritan", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+// LISTA FONT INTER (PER PARAGRAFI)
+.inter {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+}
+
+///// BOTTONI /////
+
+// BOTTONE CON ANGOLI SMUSSATI - BIANCO
+@mixin button-ghost-white {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+    }
+}
+
+// BOTTONE ROTONDO - BIANCO
+@mixin button-ghost-round-white {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+
+    &:hover {
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+    }
+}
+
+// BOTTONE CON ANGOLI SMUSSATI - ROSSO
+@mixin button-red {
+    @include button-ghost-white;
+    background: rgba($half-red, 0.1);
+    color: $light-red;
+    border: 1px solid rgba($light-red, 0.3);
+
+    &:hover {
+        background: rgba($dark-red, 1);
+        border-color: rgba($light-red, 1);
+        color: white;
+    }
+}
+
+// BOTTONE ROTONDO - ROSSO
+@mixin button-round-red {
+    @include button-ghost-round-white;
+    background: rgba($half-red, 0.1);
+    color: $light-red;
+    border: 1px solid rgba($light-red, 0.3);
+
+    &:hover {
+        background: rgba($dark-red, 1);
+        border-color: rgba($light-red, 1);
+        color: white;
+    }
+}
+
+// BOTTONE CON ANGOLI SMUSSATI - VERDE
+@mixin button-green {
+    @include button-ghost-white;
+    background: rgba($half-green, 0.1);
+    color: $light-green;
+    border: 1px solid rgba($light-green, 0.3);
+
+    &:hover {
+        background: rgba($dark-green, 1);
+        border-color: rgba($light-green, 1);
+        color: white;
+    }
+}
+
+// BOTTONE ROTONDO - VERDE
+@mixin button-round-green {
+    @include button-ghost-round-white;
+    background: rgba($half-green, 0.1);
+    color: $light-green;
+    border: 1px solid rgba($light-green, 0.3);
+
+    &:hover {
+        background: rgba($dark-green, 1);
+        border-color: rgba($light-green, 1);
+        color: white;
+    }
+}
+
+// BOTTONE CON ANGOLI SMUSSATI - BLU
+@mixin button-blue {
+    @include button-ghost-white;
+    background: rgba($half-blue, 0.1);
+    color: $light-blue;
+    border: 1px solid rgba($light-blue, 0.3);
+
+    &:hover {
+        background: rgba($dark-blue, 1);
+        border-color: rgba($light-blue, 1);
+        color: white;
+    }
+}
+
+// BOTTONE ROTONDO - BLU
+@mixin button-round-blue {
+    @include button-ghost-round-white;
+    background: rgba($half-blue, 0.1);
+    color: $light-blue;
+    border: 1px solid rgba($light-blue, 0.3);
+
+    &:hover {
+        background: rgba($dark-blue, 1);
+        border-color: rgba($light-blue, 1);
+        color: white;
+    }
+}
+
+//////////////////////////////////////////////////////
+
+// ANIMAZIONE INGRESSO
+@keyframes openModalAnim {
+    0% {
+        transform: scale(0);
+        transform-origin: 50% 0%;
+    }
+
+    100% {
+        transform: scale(1);
+        transform-origin: 50% 0%;
+    }
+}

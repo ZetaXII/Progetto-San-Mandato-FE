@@ -1,0 +1,180 @@
+<div class="poi-detail-container" *ngIf="poi">
+    <div class="detail-backdrop" (click)="close()"></div>
+    <div class="poi-detail-modal">
+        <div class="h-100">
+            <div class="row h-100 g-0 flex-nowrap">
+                <!-- 🔴 COLONNA SX -->
+                <div
+                    class="colonna-sx col-12 col-md-4 col-lg-3 poi-left d-flex flex-rows flex-md-column gap-md-0 gap-4">
+                    <div class="image-section">
+                        <img [src]="poi.coverImageUrl || photoManagerService.DEFAULT_IMAGE" [alt]="poi.name"
+                            class="poi-image" (error)="photoManagerService.handleImageError($event)">
+                    </div>
+
+                    <div class="info-base d-flex flex-column gap-3 ps-1 pe-3">
+
+                        <!-- AREA GROUP -->
+                        <div class="gap-2">
+                            <div class="fw-bold inter" *ngIf="mode === 'edit' || mode === 'create'">Gruppo area:</div>
+                            <ng-container *ngIf="mode === 'view'; else editAreaGroup">
+                                <div class="info-area-group-pill fw-bold">{{poi.areaGroup}}</div>
+                            </ng-container>
+                            <ng-template #editAreaGroup>
+                                <select [(ngModel)]="poi.areaGroup" class="form-control">
+                                    <option *ngFor="let area of GRUPPI_AREA" [value]="area">{{ area }}</option>
+                                </select>
+                            </ng-template>
+                        </div>
+
+                        <!-- INDIRIZZO -->
+                        <div>
+                            <div class="fw-bold inter">Indirizzo:</div>
+                            <ng-container *ngIf="mode === 'view'; else editAddress">
+                                <div class="inter d-flex gap-2 align-items-center">
+                                    <i class="ri-map-pin-line detail-poi-custom-icon"></i>{{poi.address}}
+                                </div>
+                            </ng-container>
+                            <ng-template #editAddress>
+                                <input type="text" [(ngModel)]="poi.address" class="form-control">
+                            </ng-template>
+                        </div>
+
+                        <!-- COORDINATE -->
+                        <div>
+                            <div class="fw-bold inter">Coordinate:</div>
+                            <ng-container *ngIf="mode === 'view'; else editCoords">
+                                <div class="inter d-flex gap-2 align-items-center">
+                                    <i class="ri-map-2-line detail-poi-custom-icon"></i>{{poi.longitude}},
+                                    {{poi.latitude}}
+                                </div>
+                            </ng-container>
+                            <ng-template #editCoords>
+                                <div class="d-flex gap-2">
+                                    <input type="number" [(ngModel)]="poi.longitude" class="form-control">
+                                    <input type="number" [(ngModel)]="poi.latitude" class="form-control">
+                                </div>
+                            </ng-template>
+                        </div>
+
+                        <!-- CRONOLOGIA -->
+                        <div>
+                            <div class="fw-bold inter">Cronologia della villa:</div>
+                            <ng-container *ngIf="mode === 'view'; else editCentury">
+                                <div class="inter d-flex gap-2 align-items-center">
+                                    <i class="ri-history-line detail-poi-custom-icon"></i>{{poi.constructionCentury}}
+                                </div>
+                            </ng-container>
+                            <ng-template #editCentury>
+                                <select [(ngModel)]="poi.constructionCentury" class="form-control">
+                                    <option *ngFor="let secolo of SECOLI" [value]="secolo">{{ secolo }}</option>
+                                </select>
+                            </ng-template>
+                        </div>
+
+                        <!-- LOCALIZZAZIONE -->
+                        <div>
+                            <div class="fw-bold inter">Localizzazione:</div>
+                            <ng-container *ngIf="mode === 'view'; else editLocalized">
+                                <div class="inter d-flex gap-2 align-items-center">
+                                    <i class="ri-navigation-line detail-poi-custom-icon"></i>
+                                    {{poi.localized ? 'Precisa' : 'Non precisa'}}
+                                </div>
+                            </ng-container>
+                            <ng-template #editLocalized>
+                                <select [(ngModel)]="poi.localized" class="form-control">
+                                    <option [ngValue]="true">Precisa</option>
+                                    <option [ngValue]="false">Non precisa</option>
+                                </select>
+                            </ng-template>
+                        </div>
+
+                        <!-- BOTTONI DI CONTROLLO [ADMIN] DESKTOP -->
+                        <div class="container-buttons-action-desktop">
+                            <ng-container *ngTemplateOutlet="btnActions"></ng-container>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 🟢 COLONNA CENTRALE -->
+                <div class="col-centrale col poi-center d-flex flex-column">
+
+                    <!-- CAMBIO SEZIONE -->
+                    <div class="change-section-container d-flex gap-2 py-3 inter">
+                        @for (section of sections; track section.id) {
+                        <div class="section-pill" [class.active]="selectedSection === section.id"
+                            (click)="selectSection(section.id)">
+                            {{ section.title }}
+                        </div>
+                        }
+                    </div>
+
+                    <!-- NOME POI -->
+                    @if (mode === 'create' || mode === 'edit') {
+                    <div class="fw-bold inter">Nome villa:</div>
+                    }
+                    <div class="poi-title fw-bold inter pb-3">
+                        <ng-container *ngIf="mode === 'view'; else editName">
+                            {{ poi.name }}
+                        </ng-container>
+                        <ng-template #editName>
+                            <input type="text" [(ngModel)]="poi.name" class="form-control">
+                        </ng-template>
+                    </div>
+
+                    @for (section of sections; track section.id) {
+                    @if (selectedSection === section.id) {
+                    <div>
+                        <div class="poi-subtitle d-flex align-items-center">
+                            <i class="ri-arrow-right-s-line detail-poi-custom-icon"></i>
+                            <span class="inter">{{section.title}}</span>
+                        </div>
+
+                        <ng-container *ngIf="mode === 'view'; else editSection">
+                            <div class="long-text px-3 scrollable-div">
+                                <span [innerHTML]="section.content | markdown"></span>
+                            </div>
+                        </ng-container>
+                        <ng-template #editSection>
+                            <textarea [(ngModel)]="section.content" class="form-control" rows="5"></textarea>
+                        </ng-template>
+                    </div>
+                    }
+                    }
+
+                    <!-- BOTTONI DI CONTROLLO [ADMIN] MOBILE -->
+                    <div class="container-buttons-action-mobile">
+                        <ng-container *ngTemplateOutlet="btnActions"></ng-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTONE PER CHIUDERE LA SCHEDA -->
+            <i class="ri-close-large-line fs-3 btn-red btn-close-custom" (click)="close()"></i>
+
+        </div>
+    </div>
+</div>
+
+<!-- TEMPLATE BTN ACTIONS -->
+<ng-template #btnActions>
+    <!-- BTN MODIFICA -->
+    <div class="d-flex justify-content-center align-items-center">
+        <button class="btn-blue btn-actions-custom text-center w-75" (click)="toggleEditPoiMode()"
+            *ngIf="mode === 'view'">
+            Modifica
+        </button>
+    </div>
+
+    <div class="d-flex gap-2 justify-content-center align-items-center w-100">
+        <!-- BTN ANNULLA -->
+        <button class="btn-red btn-actions-custom" (click)="toggleViewPoiMode()" *ngIf="mode === 'edit'">
+            Annulla
+        </button>
+
+        <!-- BTN SALVA -->
+        <button class="btn-green btn-actions-custom" (click)="savePoi()" *ngIf="mode === 'edit' || mode === 'create'">
+            Salva
+        </button>
+    </div>
+</ng-template>

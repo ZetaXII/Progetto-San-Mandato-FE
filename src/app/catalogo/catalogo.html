@@ -1,0 +1,166 @@
+<div class="catalogue-section pb-5">
+    <div class="container-fluid">
+        <!-- HEADER -->
+        <div class="section-header mb-2">
+            <div class="row align-items-center g-3">
+
+                <!-- TITOLO PAGINA -->
+                <div class="col-xl-3 col-lg-12 col-md-12 col-12">
+                    <div class="title-container">
+                        <i class="ri-folder-line title-icon"></i>
+                        <h1 class="section-title">Catalogo</h1>
+                    </div>
+                </div>
+
+                <!-- FILTRI -->
+                <div
+                    class="col-xl-6 col-lg-9 col-md-9 col-12 d-flex justify-content-center align-items-center gap-2 position-relative">
+
+                    <!-- SEARCH PER NOME -->
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="search-wrapper search-name">
+                            <i class="ri-search-line custom-icon"></i>
+                            <input type="text" class="search-input filter-search-name inter"
+                                placeholder="Cerca nel catalogo..." [(ngModel)]="searchPoisByFilters.name"
+                                (input)="onSearchInput()">
+                        </div>
+                    </div>
+
+                    <!-- BOTTONE FILTRI -->
+                    <div class="d-flex justify-content-center align-items-center" (click)="toggleShowFilterPanel()">
+                        <i class="ri-equalizer-2-fill custom-icon search-filter-btn "></i>
+                    </div>
+
+                    <!-- PANNELLO FILTRI -->
+                    @if (showFilterPanel === true) {
+                    <div class="dropdown-overlay" (click)="toggleShowFilterPanel()">
+                        <div class="container-filter-panel" (click)="$event.stopPropagation()">
+                            <div *ngTemplateOutlet="filtriRicerca"></div>
+                        </div>
+                    </div>
+
+                    }
+
+                </div>
+
+                <!-- TOT ELEMENTI -->
+                <div class="col-xl-3 col-lg-3 col-md-3 col-12 text-md-end">
+                    <p class="section-subtitle inter mb-0">
+                        Ville schedate: <strong class="puritan-bold fs-4">{{totalPois}}</strong>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="position-relative">
+            @if (isLoading) {
+            <div class="dots-bounce">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            }
+
+            @if (poiList.length > 0) {
+            <div class="cards-grid-8">
+                <app-card-poi *ngFor="let poi of poiList; trackBy: trackByUuid" [poi]="poi"
+                    [isActive]="selectedPoi?.uuid === poi.uuid" (poiClick)="onPoiClick(poi)">
+                </app-card-poi>
+            </div>
+            } @else if (!isLoading) {
+            <div class="empty-state text-center py-5" style="margin-top: 10rem;">
+                @if (searchPoisByFilters.name) {
+                <i class="ri-search-line fs-1 color-half-red mb-3 d-block"></i>
+                <h3>Nessun risultato</h3>
+                <p>Prova con altre parole</p>
+                } @else {
+                <i class="ri-file-list-2-line fs-1 color-half-red mb-3 d-block"></i>
+                <h3>Nessuna villa trovata</h3>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<app-poi-detail *ngIf="selectedPoi" [poi]="selectedPoi" (closeDetailPoi)="onCloseDetail()">
+</app-poi-detail>
+
+<!-- TEMPLATE PANNELLO FILTRI RICERCA -->
+<ng-template #filtriRicerca>
+
+    <div class="filter-panel">
+        <div class="row">
+
+            <!-- FILTRO GRUPPO AREA -->
+            <div class="col-12">
+                <div class="filter-container flex-grow-1">
+
+                    <label class="fw-bold inter" for="zona">Gruppo area</label>
+
+                    <div class="search-wrapper search-filter">
+                        <i class="ri-building-line custom-icon"></i>
+                        <select id="zona" class="search-input inter" [(ngModel)]="searchPoisByFilters.areaGroup"
+                            (change)="onSearchInput()">
+                            <option value="" selected>Tutti</option>
+                            <option *ngFor="let area of GRUPPI_AREA" [value]="area">
+                                {{ area }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTRO SECOLO -->
+            <div class="col-12 col-md-6 mt-3">
+                <div class="filter-container flex-grow-1">
+
+                    <label class="fw-bold inter" for="secolo">Secolo</label>
+
+                    <div class="search-wrapper search-filter">
+                        <i class="ri-time-line custom-icon"></i>
+                        <select id="secolo" class="search-input inter"
+                            [(ngModel)]="searchPoisByFilters.constructionCentury" (change)="onSearchInput()">
+                            <option value="" selected>Tutti</option>
+                            <option *ngFor="let century of SECOLI" [value]="century">
+                                {{ century }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTRO LOCALIZZATO -->
+            <div class="col-12 col-md-6 mt-3">
+                <div class="filter-container flex-grow-1">
+
+                    <label class="fw-bold inter" for="isLocalized">Localizzazione</label>
+
+                    <div class="search-wrapper search-filter">
+                        <i class="ri-gps-line custom-icon"></i>
+                        <select id="isLocalized" class="search-input inter"
+                            [(ngModel)]="searchPoisByFilters.isLocalized" (change)="onSearchInput()">
+                            <option [ngValue]="undefined" selected>Tutte</option>
+                            <option [ngValue]="true">Precisa</option>
+                            <option [ngValue]="false">Approssimativa</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TASTO RESET -->
+            <div class="col-12 mt-3">
+                <div class="filter-container flex-grow-1">
+                    <!-- BOTTONE RESET FILTRI -->
+                    <div class="d-flex justify-content-center align-items-center reset-filters-btn"
+                        (click)="resetFilters()">
+                        <i class="ri-reset-left-line me-2"></i><span>Reset</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</ng-template>

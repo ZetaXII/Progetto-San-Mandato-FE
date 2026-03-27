@@ -1,0 +1,27 @@
+<div class="gallery-section py-3">
+    <div class="container text-center">
+        <div class="photo-wrapper" (click)="openFullscreen()">
+            <img [src]="photos[current]" [alt]="'Foto ' + (current + 1)" class="main-photo"
+                [class.swipe-left]="swipeDirection === 'left'" [class.swipe-right]="swipeDirection === 'right'"
+                (animationend)="swipeDirection = null">
+        </div>
+
+        <div class="dots">
+            <span *ngFor="let photo of photos; let i = index; trackBy: trackByIndex" [class.active]="i === current"
+                (click)="goTo(i)">
+            </span>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN MODAL -->
+    <div class="fullscreen-modal" *ngIf="isFullscreen" (click)="closeFullscreen()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <i class="ri-close-line close-btn" (click)="closeFullscreen()"></i>
+            <img [src]="photos[current]" class="fullscreen-img">
+            <div class="nav-arrows">
+                <i class="ri-arrow-left-s-line prev-btn" (click)="prev()"></i>
+                <i class="ri-arrow-right-s-line next-btn" (click)="next()"></i>
+            </div>
+        </div>
+    </div>
+</div>
