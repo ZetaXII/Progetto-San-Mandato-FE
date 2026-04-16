@@ -1,7 +1,7 @@
 @use "../../styles" as *;
 
 .navbar {
-  background: white;
+  background: $white;
   min-height: 70px;
   box-shadow: 0 0.125rem 1rem rgba(0, 0, 0, 0.08);
   position: sticky;
@@ -81,7 +81,7 @@
   // Collapse mobile
   .navbar-collapse {
     @media (max-width: 991px) {
-      background: white;
+      background: $white;
       padding: 1rem 0;
       margin-top: 1rem;
       border-top: 1px solid rgba($half-red, 0.15);

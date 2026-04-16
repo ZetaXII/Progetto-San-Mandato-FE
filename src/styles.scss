@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Puritan:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+// Color Palette - Neutri
+$white: #fff; // Bianco
+
 // Color Palette - Rosso
 $dark-red: #2e020a; // Rosso scuro profondo
 $half-red: #85121c; // Rosso medio caldo  
@@ -99,7 +102,7 @@ $light-blue: #3399ff; // Blu intenso
 // BOTTONE CON ANGOLI SMUSSATI - BIANCO
 @mixin button-ghost-white {
     background: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: $white;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 12px;
     padding: 0.75rem 1rem;
@@ -123,7 +126,7 @@ $light-blue: #3399ff; // Blu intenso
 // BOTTONE ROTONDO - BIANCO
 @mixin button-ghost-round-white {
     background: rgba(255, 255, 255, 0.1);
-    color: white;
+    color: $white;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     padding: 0.75rem 1rem;
@@ -155,7 +158,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba($dark-red, 1);
         border-color: rgba($light-red, 1);
-        color: white;
+        color: $white;
     }
 }
 
@@ -169,7 +172,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba($dark-red, 1);
         border-color: rgba($light-red, 1);
-        color: white;
+        color: $white;
     }
 }
 
@@ -183,7 +186,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba($dark-green, 1);
         border-color: rgba($light-green, 1);
-        color: white;
+        color: $white;
     }
 }
 
@@ -197,7 +200,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba($dark-green, 1);
         border-color: rgba($light-green, 1);
-        color: white;
+        color: $white;
     }
 }
 
@@ -211,7 +214,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba($dark-blue, 1);
         border-color: rgba($light-blue, 1);
-        color: white;
+        color: $white;
     }
 }
 
@@ -225,7 +228,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba($dark-blue, 1);
         border-color: rgba($light-blue, 1);
-        color: white;
+        color: $white;
     }
 }
 

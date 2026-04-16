@@ -4,7 +4,7 @@
     aspect-ratio: 1;
     display: flex;
     flex-direction: column;
-    background: white;
+    background: $white;
     border-radius: 1rem;
     box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
     overflow: hidden;
@@ -40,7 +40,7 @@
 
             i {
                 font-size: 1.5rem;
-                color: white;
+                color: $white;
                 transform: scale(0.8);
                 transition: all 0.3s ease;
             }
@@ -68,7 +68,7 @@
     .category-pill {
         display: inline-flex;
         background: $half-red;
-        color: white;
+        color: $white;
         padding: 0.2rem 0.6rem; // ← Più grande (4x10px)
         border-radius: 0.875rem; // ← Più arrotondata
         font-size: 0.725rem; // ← 11.6px più visibile

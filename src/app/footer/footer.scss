@@ -16,14 +16,14 @@
 
         .brand-icon {
             font-size: 2rem;
-            color: white;
+            color: $white;
         }
 
         // Ridotto da 2.5rem
         h3 {
             font-size: 1.3rem; // Ridotto da 1.5rem
             font-weight: 700;
-            color: white;
+            color: $white;
             margin: 0;
         }
     }
@@ -32,7 +32,7 @@
     .footer-title {
         font-size: 1rem; // Ridotto da 1.1rem
         font-weight: 600;
-        color: white;
+        color: $white;
         margin-bottom: 1rem; // Ridotto
         position: relative;
         padding-bottom: 0.5rem; // Ridotto
@@ -44,7 +44,7 @@
             left: 0;
             width: 30px;
             height: 2px;
-            background: white;
+            background: $white;
         }
     }
 
@@ -65,7 +65,7 @@
                 transition: color 0.3s ease;
 
                 &:hover {
-                    color: white;
+                    color: $white;
                 }
             }
         }
@@ -78,7 +78,7 @@
 
         i {
             font-size: 1.1rem; // Ridotto
-            color: white;
+            color: $white;
             margin-top: 2px;
             flex-shrink: 0;
         }
@@ -113,7 +113,7 @@
                 text-decoration: none;
 
                 &:hover {
-                    color: white;
+                    color: $white;
                 }
             }
 
@@ -131,7 +131,7 @@
         width: 50px;
         height: 50px;
         background: $light-red;
-        color: white;
+        color: $white;
         border: none;
         border-radius: 50%;
         font-size: 1.5rem;

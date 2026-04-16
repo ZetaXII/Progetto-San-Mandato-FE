@@ -22,7 +22,7 @@
     width: 100%;
     max-width: 1200px;
     height: 90vh;
-    background: white;
+    background: $white;
     box-shadow: 0 25px 80px rgba(56, 4, 14, 0.25);
     border: 1px solid rgba($half-red, 0.15);
     border-radius: 1rem;
@@ -92,25 +92,6 @@ textarea {
         border-radius: 0.8rem;
     }
 
-    .info-area-group-pill {
-        background-color: $half-red;
-        color: white;
-        border-radius: 50rem;
-        padding: 0.35em 0.75em;
-        align-items: center;
-        font-size: 0.9rem;
-        display: inline-flex;
-        flex-shrink: 0;
-        white-space: nowrap;
-        transition: all 0.3s ease;
-
-        &:hover {
-            background-color: $light-red;
-            cursor: pointer;
-            transform: scale(105%);
-        }
-    }
-
     .info-base {
         margin: 1rem 0;
     }
@@ -151,13 +132,13 @@ textarea {
     position: sticky;
     top: 0;
     z-index: 10;
-    background: white;
+    background: $white;
 
     .section-pill {
-        background-color: white;
+        background-color: $white;
         padding: 0.1rem 0.5rem;
-        border: 1px solid $half-red;
-        border-radius: 15px;
+        border: 2px solid $half-red;
+        border-radius: 16px;
         color: $half-red;
         cursor: pointer;
         display: flex;
@@ -168,13 +149,13 @@ textarea {
 
         &:hover {
             background-color: $half-red;
-            color: white;
+            color: $white;
             transform: scale(105%);
         }
 
         &.active {
             background-color: $half-red;
-            color: white;
+            color: $white;
         }
     }
 }
@@ -187,7 +168,7 @@ textarea {
     position: absolute;
     bottom: 0;
     width: 100%;
-    background: white;
+    background: $white;
     padding: 1rem 1.3rem 1rem 0rem;
     z-index: 10;
     display: block;
@@ -197,7 +178,7 @@ textarea {
     position: sticky;
     bottom: -18px;
     width: 100%;
-    background: white;
+    background: $white;
     padding: 1rem 0rem;
     z-index: 10;
     display: none;
@@ -261,7 +242,7 @@ textarea {
         position: absolute;
         bottom: 0;
         width: 100%;
-        background: white;
+        background: $white;
         padding: 1rem 1.3rem 1rem 0rem;
         z-index: 10;
     }
@@ -272,6 +253,28 @@ textarea {
 
     .container-buttons-action-mobile {
         display: block;
+    }
+}
+
+.info-area-group-pill {
+    background-color: transparent;
+    color: $white;
+    border-radius: 50rem;
+    border: 2px solid $half-red;
+    color: $half-red;
+    padding: 0.35em 0.75em;
+    align-items: center;
+    font-size: 0.9rem;
+    display: inline-flex;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: $light-red;
+        color: $white;
+        cursor: pointer;
+        transform: scale(105%);
     }
 }
 
