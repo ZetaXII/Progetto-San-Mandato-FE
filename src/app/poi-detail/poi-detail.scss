@@ -133,6 +133,8 @@ textarea {
     top: 0;
     z-index: 10;
     background: $white;
+    overflow-x: auto;
+    white-space: nowrap;
 
     .section-pill {
         background-color: $white;
