@@ -76,9 +76,22 @@ $light-blue: #3399ff; // Blu intenso
 }
 
 // LISTA FONT INTER (PER PARAGRAFI)
-.inter {
+.inter-normal {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
+    font-weight: 400;
+}
+
+.inter-semibold {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+}
+
+.inter-bold {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
 }
 
 ///// BOTTONI /////

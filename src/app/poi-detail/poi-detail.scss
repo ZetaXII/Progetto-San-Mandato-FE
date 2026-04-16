@@ -123,18 +123,11 @@ textarea {
 
     .poi-title {
         font-size: 2.5rem;
-        line-height: normal;
     }
 
     .poi-subtitle {
         font-size: 2rem;
-        line-height: normal;
-    }
-
-    .detail-poi-custom-icon {
-        font-size: 1.3rem;
-        font-weight: normal;
-        color: $half-red
+        margin: 0 0 0.8rem 0
     }
 
     .long-text {
@@ -205,7 +198,7 @@ textarea {
     bottom: -18px;
     width: 100%;
     background: white;
-    padding: 1rem 1.3rem 1rem 0rem;
+    padding: 1rem 0rem;
     z-index: 10;
     display: none;
 }

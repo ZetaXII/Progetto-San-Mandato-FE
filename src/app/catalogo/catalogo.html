@@ -20,7 +20,7 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="search-wrapper search-name">
                             <i class="ri-search-line custom-icon"></i>
-                            <input type="text" class="search-input filter-search-name inter"
+                            <input type="text" class="search-input filter-search-name inter-normal"
                                 placeholder="Cerca nel catalogo..." [(ngModel)]="searchPoisByFilters.name"
                                 (input)="onSearchInput()">
                         </div>
@@ -45,7 +45,7 @@
 
                 <!-- TOT ELEMENTI -->
                 <div class="col-xl-3 col-lg-3 col-md-3 col-12 text-md-end">
-                    <p class="section-subtitle inter mb-0">
+                    <p class="section-subtitle inter-semibold">
                         Ville schedate: <strong class="puritan-bold fs-4">{{totalPois}}</strong>
                     </p>
                 </div>
@@ -98,11 +98,11 @@
             <div class="col-12">
                 <div class="filter-container flex-grow-1">
 
-                    <label class="fw-bold inter" for="zona">Gruppo area</label>
+                    <label class="inter-bold" for="zona">Gruppo area</label>
 
                     <div class="search-wrapper search-filter">
                         <i class="ri-building-line custom-icon"></i>
-                        <select id="zona" class="search-input inter" [(ngModel)]="searchPoisByFilters.areaGroup"
+                        <select id="zona" class="search-input inter-normal" [(ngModel)]="searchPoisByFilters.areaGroup"
                             (change)="onSearchInput()">
                             <option value="" selected>Tutti</option>
                             <option *ngFor="let area of GRUPPI_AREA" [value]="area">
@@ -117,11 +117,11 @@
             <div class="col-12 col-md-6 mt-3">
                 <div class="filter-container flex-grow-1">
 
-                    <label class="fw-bold inter" for="secolo">Secolo</label>
+                    <label class="inter-bold" for="secolo">Secolo</label>
 
                     <div class="search-wrapper search-filter">
                         <i class="ri-time-line custom-icon"></i>
-                        <select id="secolo" class="search-input inter"
+                        <select id="secolo" class="search-input inter-normal"
                             [(ngModel)]="searchPoisByFilters.constructionCentury" (change)="onSearchInput()">
                             <option value="" selected>Tutti</option>
                             <option *ngFor="let century of SECOLI" [value]="century">
@@ -136,11 +136,11 @@
             <div class="col-12 col-md-6 mt-3">
                 <div class="filter-container flex-grow-1">
 
-                    <label class="fw-bold inter" for="isLocalized">Localizzazione</label>
+                    <label class="inter-bold" for="isLocalized">Localizzazione</label>
 
                     <div class="search-wrapper search-filter">
                         <i class="ri-gps-line custom-icon"></i>
-                        <select id="isLocalized" class="search-input inter"
+                        <select id="isLocalized" class="search-input inter-normal"
                             [(ngModel)]="searchPoisByFilters.isLocalized" (change)="onSearchInput()">
                             <option [ngValue]="undefined" selected>Tutte</option>
                             <option [ngValue]="true">Precisa</option>

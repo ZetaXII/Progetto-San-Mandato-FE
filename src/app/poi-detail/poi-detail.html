@@ -15,7 +15,7 @@
 
                         <!-- AREA GROUP -->
                         <div class="gap-2">
-                            <div class="fw-bold inter" *ngIf="mode === 'edit' || mode === 'create'">Gruppo area:</div>
+                            <div class="inter-bold" *ngIf="mode === 'edit' || mode === 'create'">Gruppo area:</div>
                             <ng-container *ngIf="mode === 'view'; else editAreaGroup">
                                 <div class="info-area-group-pill fw-bold">{{poi.areaGroup}}</div>
                             </ng-container>
@@ -28,9 +28,9 @@
 
                         <!-- INDIRIZZO -->
                         <div>
-                            <div class="fw-bold inter">Indirizzo:</div>
+                            <div class="inter-bold">Indirizzo:</div>
                             <ng-container *ngIf="mode === 'view'; else editAddress">
-                                <div class="inter d-flex gap-2 align-items-center">
+                                <div class="inter-normal d-flex gap-2 align-items-center">
                                     <i class="ri-map-pin-line detail-poi-custom-icon"></i>{{poi.address}}
                                 </div>
                             </ng-container>
@@ -41,9 +41,9 @@
 
                         <!-- COORDINATE -->
                         <div>
-                            <div class="fw-bold inter">Coordinate:</div>
+                            <div class="inter-bold">Coordinate:</div>
                             <ng-container *ngIf="mode === 'view'; else editCoords">
-                                <div class="inter d-flex gap-2 align-items-center">
+                                <div class="inter-normal d-flex gap-2 align-items-center">
                                     <i class="ri-map-2-line detail-poi-custom-icon"></i>{{poi.longitude}},
                                     {{poi.latitude}}
                                 </div>
@@ -58,9 +58,9 @@
 
                         <!-- CRONOLOGIA -->
                         <div>
-                            <div class="fw-bold inter">Cronologia della villa:</div>
+                            <div class="inter-bold">Cronologia della villa:</div>
                             <ng-container *ngIf="mode === 'view'; else editCentury">
-                                <div class="inter d-flex gap-2 align-items-center">
+                                <div class="inter-normal d-flex gap-2 align-items-center">
                                     <i class="ri-history-line detail-poi-custom-icon"></i>{{poi.constructionCentury}}
                                 </div>
                             </ng-container>
@@ -73,9 +73,9 @@
 
                         <!-- LOCALIZZAZIONE -->
                         <div>
-                            <div class="fw-bold inter">Localizzazione:</div>
+                            <div class="inter-bold">Localizzazione:</div>
                             <ng-container *ngIf="mode === 'view'; else editLocalized">
-                                <div class="inter d-flex gap-2 align-items-center">
+                                <div class="inter-normal d-flex gap-2 align-items-center">
                                     <i class="ri-navigation-line detail-poi-custom-icon"></i>
                                     {{poi.localized ? 'Precisa' : 'Non precisa'}}
                                 </div>
@@ -99,21 +99,11 @@
                 <!-- 🟢 COLONNA CENTRALE -->
                 <div class="col-centrale col poi-center d-flex flex-column">
 
-                    <!-- CAMBIO SEZIONE -->
-                    <div class="change-section-container d-flex gap-2 py-3 inter">
-                        @for (section of sections; track section.id) {
-                        <div class="section-pill" [class.active]="selectedSection === section.id"
-                            (click)="selectSection(section.id)">
-                            {{ section.title }}
-                        </div>
-                        }
-                    </div>
-
                     <!-- NOME POI -->
                     @if (mode === 'create' || mode === 'edit') {
-                    <div class="fw-bold inter">Nome villa:</div>
+                    <div class="inter-bold">Nome villa:</div>
                     }
-                    <div class="poi-title fw-bold inter pb-3">
+                    <div class="poi-title inter-bold">
                         <ng-container *ngIf="mode === 'view'; else editName">
                             {{ poi.name }}
                         </ng-container>
@@ -122,16 +112,25 @@
                         </ng-template>
                     </div>
 
+                    <!-- CAMBIO SEZIONE -->
+                    <div class="change-section-container d-flex gap-2 py-3 inter-normal">
+                        @for (section of sections; track section.id) {
+                        <div class="section-pill" [class.active]="selectedSection === section.id"
+                            (click)="selectSection(section.id)">
+                            {{ section.title }}
+                        </div>
+                        }
+                    </div>
+
                     @for (section of sections; track section.id) {
                     @if (selectedSection === section.id) {
                     <div>
-                        <div class="poi-subtitle d-flex align-items-center">
-                            <i class="ri-arrow-right-s-line detail-poi-custom-icon"></i>
-                            <span class="inter">{{section.title}}</span>
+                        <div class="poi-subtitle fw-semibold d-flex align-items-center">
+                            <span class="inter-semibold">{{section.title}}</span>
                         </div>
 
                         <ng-container *ngIf="mode === 'view'; else editSection">
-                            <div class="long-text px-3 scrollable-div">
+                            <div class="long-text scrollable-div pe-3">
                                 <span [innerHTML]="section.content | markdown"></span>
                             </div>
                         </ng-container>
@@ -143,7 +142,7 @@
                     }
 
                     <!-- BOTTONI DI CONTROLLO [ADMIN] MOBILE -->
-                    <div class="container-buttons-action-mobile">
+                    <div class="container-buttons-action-mobile mt-auto">
                         <ng-container *ngTemplateOutlet="btnActions"></ng-container>
                     </div>
                 </div>
@@ -158,15 +157,14 @@
 
 <!-- TEMPLATE BTN ACTIONS -->
 <ng-template #btnActions>
-    <!-- BTN MODIFICA -->
-    <div class="d-flex justify-content-center align-items-center">
-        <button class="btn-blue btn-actions-custom text-center w-75" (click)="toggleEditPoiMode()"
-            *ngIf="mode === 'view'">
-            Modifica
-        </button>
-    </div>
 
     <div class="d-flex gap-2 justify-content-center align-items-center w-100">
+
+        <!-- BTN MODIFICA -->
+        <button class="btn-blue btn-actions-custom" (click)="toggleEditPoiMode()" *ngIf="mode === 'view'">
+            Modifica
+        </button>
+
         <!-- BTN ANNULLA -->
         <button class="btn-red btn-actions-custom" (click)="toggleViewPoiMode()" *ngIf="mode === 'edit'">
             Annulla
