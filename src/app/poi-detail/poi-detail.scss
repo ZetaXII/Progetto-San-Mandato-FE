@@ -32,7 +32,7 @@
 }
 
 textarea {
-    height: calc(75vh - 2rem) !important;
+    height: calc(70vh - 2rem) !important;
 }
 
 .btn-white {
@@ -84,17 +84,17 @@ textarea {
         margin: 1rem 0 0 0;
     }
 
-    .poi-image {
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 0.8rem;
-    }
-
     .info-base {
         margin: 1rem 0;
     }
+}
+
+.poi-image {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.8rem;
 }
 
 // 🟢 COLONNA CENTRALE
@@ -118,7 +118,7 @@ textarea {
     }
 
     .scrollable-div {
-        max-height: 73vh;
+        max-height: 68vh;
         overflow: auto;
         box-sizing: border-box;
     }
@@ -134,7 +134,11 @@ textarea {
     z-index: 10;
     background: $white;
     overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
+    min-height: 4rem;
+    padding: 0.32rem;
+    margin: 1.2rem 0;
 
     .section-pill {
         background-color: $white;
@@ -261,7 +265,7 @@ textarea {
 .info-area-group-pill {
     background-color: transparent;
     color: $white;
-    border-radius: 50rem;
+    border-radius: 6px;
     border: 2px solid $half-red;
     color: $half-red;
     padding: 0.35em 0.75em;
@@ -272,12 +276,12 @@ textarea {
     white-space: nowrap;
     transition: all 0.3s ease;
 
-    &:hover {
-        background-color: $light-red;
-        color: $white;
-        cursor: pointer;
-        transform: scale(105%);
-    }
+    // &:hover {
+    //     background-color: $light-red;
+    //     color: $white;
+    //     cursor: pointer;
+    //     transform: scale(105%);
+    // }
 }
 
 @media (max-height: 930px) {

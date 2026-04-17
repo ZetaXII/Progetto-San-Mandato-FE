@@ -8,8 +8,7 @@ import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
 
 interface Section {
   id: number,
-  title: string,
-  content: any
+  title: string
 }
 
 @Component({
@@ -21,11 +20,12 @@ interface Section {
 })
 export class PoiDetail {
   mode: 'view' | 'edit' | 'create' = 'view';
-  @Input() poi!: Poi | null;
+  @Input() poi!: Poi;
   @Output() closeDetailPoi = new EventEmitter<void>();
   sections: Section[] = [];
   selectedSection: number = 0;
-  poiBackup!: Poi | null;
+  poiBackup!: Poi;
+  isDesktop = window.innerWidth >= 769;
 
   GRUPPI_AREA = gruppiArea;
   SECOLI = arraySecoli;
@@ -40,19 +40,14 @@ export class PoiDetail {
   }
 
   setSections() {
-    if (this.mode === 'edit' || this.mode === 'create') {
-      this.sections = [
-        { id: 0, title: "Descrizione generale", content: this.poi?.generalDescription || "" },
-        { id: 1, title: "Stato attuale", content: this.poi?.currentStatus || "" },
-        { id: 2, title: "Bibliografia", content: this.poi?.bibliography || "" },
-      ];
-    } else {
-      this.sections = [
-        this.poi?.generalDescription && { id: 0, title: "Descrizione generale", content: this.poi.generalDescription },
-        this.poi?.currentStatus && { id: 1, title: "Stato attuale", content: this.poi.currentStatus },
-        this.poi?.bibliography && { id: 2, title: "Bibliografia", content: this.poi.bibliography }
-      ].filter(Boolean) as Section[];
-    }
+    this.sections = [
+      { id: 0, title: "Dettagli" },
+      { id: 1, title: "Descrizione generale" },
+      { id: 2, title: "Stato attuale" },
+      { id: 3, title: "Bibliografia" },
+    ];
+    // SETTO LA SEZIONE DA MOSTRARE ALL'AVVIO
+    this.selectedSection = this.isDesktop ? 1 : 0;
   }
 
   @HostListener('document:click', ['$event'])
@@ -73,10 +68,6 @@ export class PoiDetail {
 
     if (!this.poi) return;
 
-    const descrizioneGenerale = this.sections[0]?.content || "";
-    const statoAttuale = this.sections[1]?.content || "";
-    const bibliografia = this.sections[2]?.content || "";
-
     const poiCreateData: PoiCreateDto = {
       name: this.poi.name,
       isLocalized: this.poi.localized,
@@ -85,9 +76,9 @@ export class PoiDetail {
       longitude: this.poi.longitude,
       constructionCentury: this.poi.constructionCentury,
       areaGroup: this.poi.areaGroup,
-      generalDescription: descrizioneGenerale,
-      currentStatus: statoAttuale,
-      bibliography: bibliografia,
+      generalDescription: this.poi.generalDescription,
+      currentStatus: this.poi.currentStatus,
+      bibliography: this.poi.bibliography,
       coverImageUrl: this.poi.coverImageUrl,
       architectIds: this.poi.architects || []
     };
@@ -120,5 +111,15 @@ export class PoiDetail {
     this.mode = 'view';
     this.poi = structuredClone(this.poiBackup);
     this.setSections();
+  }
+
+  // PER VERIFICARE LA DIMENSIONE DELLA PAGINA
+  @HostListener('window:resize')
+  onResize() {
+    this.isDesktop = window.innerWidth >= 769;
+    // SE LO SCHERMO É MAGGIORE DI 769px E SONO NELLA SEZIONE "DETTAGLIO"ALLORA LO SPOSTO ALLA SEZIONE SUCCESSIVA DA DESKTOP
+    if (this.isDesktop && this.selectedSection === 0) {
+      this.selectedSection = 1;
+    }
   }
 }
