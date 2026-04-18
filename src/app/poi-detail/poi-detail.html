@@ -21,7 +21,7 @@
                             {{ poi.name }}
                         </ng-container>
                         <ng-template #editName>
-                            <input type="text" [(ngModel)]="poi.name" class="form-control"
+                            <input type="text" [(ngModel)]="poi.name" class="form-control" maxlength="75"
                                 style="width: clamp(200px, 80%, 400px);">
                         </ng-template>
                     </div>
@@ -38,9 +38,12 @@
                         }
                     </div>
 
+                    <!-- SEZIONE SELEZIONATA -->
                     <div>
                         <ng-container *ngTemplateOutlet="poiDetailMobile"></ng-container>
                         <ng-container *ngTemplateOutlet="descrizioneGenerale"></ng-container>
+                        <ng-container *ngTemplateOutlet="statoAttuale"></ng-container>
+                        <ng-container *ngTemplateOutlet="bibliografia"></ng-container>
                     </div>
 
                     <!-- BOTTONI DI CONTROLLO [ADMIN] MOBILE -->
@@ -170,6 +173,7 @@
 </ng-template>
 
 <!-- SEZIONI POI -->
+
 <!-- DETTAGLIO POI (DA MOBILE) -->
 <ng-template #poiDetailMobile>
     @if (selectedSection === 0) {
@@ -200,7 +204,39 @@
 <!------------------------->
 
 <!-- STATO ATTUALE -->
+<ng-template #statoAttuale>
+    @if (selectedSection === 2) {
+    <div class="poi-subtitle fw-semibold d-flex align-items-center">
+        <span class="inter-semibold">{{sections[2].title}}</span>
+    </div>
+
+    <ng-container *ngIf="mode === 'view'; else editSection">
+        <div class="long-text scrollable-div pe-3">
+            <span [innerHTML]="poi.currentStatus | markdown"></span>
+        </div>
+    </ng-container>
+    <ng-template #editSection>
+        <textarea [(ngModel)]="poi.currentStatus" class="form-control" rows="5"></textarea>
+    </ng-template>
+    }
+</ng-template>
 <!------------------------->
 
 <!-- BIBLIOGRAFIA -->
+<ng-template #bibliografia>
+    @if (selectedSection === 3) {
+    <div class="poi-subtitle fw-semibold d-flex align-items-center">
+        <span class="inter-semibold">{{sections[3].title}}</span>
+    </div>
+
+    <ng-container *ngIf="mode === 'view'; else editSection">
+        <div class="long-text scrollable-div pe-3">
+            <span [innerHTML]="poi.bibliography | markdown"></span>
+        </div>
+    </ng-container>
+    <ng-template #editSection>
+        <textarea [(ngModel)]="poi.bibliography" class="form-control" rows="5"></textarea>
+    </ng-template>
+    }
+</ng-template>
 <!------------------------->

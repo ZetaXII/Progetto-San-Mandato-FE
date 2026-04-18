@@ -1,26 +1,34 @@
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Navbar } from './navbar/navbar';
+import { filter, Observable } from 'rxjs';
+import { AlertData, PopupAlertService } from '../assets/services/popup-alert-service';
 import { Footer } from "./footer/footer";
-import { filter } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { Navbar } from './navbar/navbar';
+import { PopupAlert } from './popup-alert/popup-alert';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Navbar, Footer, CommonModule],
+  imports: [RouterOutlet, Navbar, Footer, CommonModule, PopupAlert, AsyncPipe],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
   showFooter = false;
+  alert$: Observable<AlertData>;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private alertService: PopupAlertService
+  ) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         // Mostra footer solo su home
         this.showFooter = event.url === '/' || event.url === '/home';
       });
+
+    this.alert$ = this.alertService.alert$
   }
 }

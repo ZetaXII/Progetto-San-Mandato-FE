@@ -79,21 +79,24 @@
         align-self: flex-start;
     }
 
-
-    // TITOLO con più respiro
+    // TITOLO
     .card-title {
         font-size: 1rem;
         color: $dark-red;
         line-height: 1.25;
         margin: 0;
         padding: 0 0.125rem;
-        height: 2.25em; // ← FISSA altezza 2 righe (1.25*1.8)
-        overflow: hidden;
         display: -webkit-box;
-        line-clamp: 2;
-        -webkit-line-clamp: 2; // ← MAX 2 righe
         -webkit-box-orient: vertical;
-        min-height: 2.25em; // ← GARANTISCE 2 righe MINIMO
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
 }

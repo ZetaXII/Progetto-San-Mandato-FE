@@ -1,7 +1,13 @@
 <div class="app-wrapper">
     <app-navbar></app-navbar>
+
     <main class="main-content">
         <router-outlet></router-outlet>
     </main>
+
+    <app-popup-alert *ngIf="alert$ | async as alert" [title]="alert.title" [message]="alert.message" [type]="alert.type"
+        [visible]="alert.visible">
+    </app-popup-alert>
+
     <app-footer *ngIf="showFooter"></app-footer>
 </div>

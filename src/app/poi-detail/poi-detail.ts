@@ -5,6 +5,7 @@ import { PhotoManager } from '../../assets/services/photo-manager';
 import { FormsModule } from '@angular/forms';
 import { PoiService } from '../../assets/services/poi-service';
 import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
+import { PopupAlertService } from '../../assets/services/popup-alert-service';
 
 interface Section {
   id: number,
@@ -30,7 +31,11 @@ export class PoiDetail {
   GRUPPI_AREA = gruppiArea;
   SECOLI = arraySecoli;
 
-  constructor(public photoManagerService: PhotoManager, private _poiService: PoiService) { }
+  constructor(
+    public photoManagerService: PhotoManager,
+    private _poiService: PoiService,
+    private _popupAlertService: PopupAlertService,
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['poi'] && this.poi) {
@@ -88,8 +93,12 @@ export class PoiDetail {
         next: (updatedPoi) => {
           console.log('POI aggiornato', updatedPoi);
           this.poi = structuredClone(updatedPoi);
+          this._popupAlertService.show('Salvataggio riuscito', 'Villa salvata correttamente', 1);
         },
-        error: (err) => console.error('Errore aggiornamento POI', err)
+        error: (err) => {
+          console.error('Errore aggiornamento POI', err)
+          this._popupAlertService.show("Salvataggio non riuscito ("+err.status+")", err.message, 3);
+        }
       });
   }
 
