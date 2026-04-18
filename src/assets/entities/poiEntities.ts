@@ -47,9 +47,10 @@ export const gruppiArea: string[] = [
     'San Mandato',
     'Cesarea',
     'Le Gradelle',
-    'Ponte di Gesù e Maria',
+    'Gesù e Maria',
     'Salute',
     'Due Porte',
     'Torricchio',
-    'Babbulia'
+    'Crocifisso',
+    'Anticaglia'
 ];

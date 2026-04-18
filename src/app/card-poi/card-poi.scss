@@ -69,8 +69,8 @@
         display: inline-flex;
         background: $half-red;
         color: $white;
-        padding: 0.2rem 0.6rem; // ← Più grande (4x10px)
-        border-radius: 0.875rem; // ← Più arrotondata
+        border-radius: 6px;
+        padding: 0.2em 0.6em;
         font-size: 0.725rem; // ← 11.6px più visibile
         font-weight: 600;
         text-transform: uppercase;
