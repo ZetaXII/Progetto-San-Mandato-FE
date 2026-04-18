@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AlertType } from '../../app/popup-alert/popup-alert';
-
-export interface AlertData {
-  title: string;
-  message: string;
-  type: AlertType;
-  visible: boolean;
-}
+import { AlertData, AlertType } from '../entities/popupAlertEntities';
 
 @Injectable({ providedIn: 'root' })
 export class PopupAlertService {
@@ -24,7 +17,6 @@ export class PopupAlertService {
 
   show(title: string, message: string, type: AlertType = 0, duration = 4000) {
 
-    // 🔥 kill vecchio timer
     if (this.timeoutRef) {
       clearTimeout(this.timeoutRef);
     }

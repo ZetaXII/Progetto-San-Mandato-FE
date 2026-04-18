@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// 0 = info, 1 = success, 2 = warning, 3 = error
-export type AlertType = 0 | 1 | 2 | 3;
+import { AlertType } from '../../assets/entities/popupAlertEntities';
 
 @Component({
   selector: 'app-popup-alert',
