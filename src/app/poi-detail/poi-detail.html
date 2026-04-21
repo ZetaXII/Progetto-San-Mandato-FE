@@ -12,25 +12,32 @@
                 <!-- 🟢 COLONNA CENTRALE -->
                 <div class="col-centrale col poi-center d-flex flex-column">
 
-                    <!-- NOME POI -->
-                    @if (mode === 'create' || mode === 'edit') {
-                    <div class="inter-bold">Nome villa:</div>
-                    }
-                    <div class="poi-title inter-bold">
-                        <ng-container *ngIf="mode === 'view'; else editName">
-                            {{ poi.name }}
-                        </ng-container>
-                        <ng-template #editName>
-                            <input type="text" [(ngModel)]="poi.name" class="form-control" maxlength="75"
-                                style="width: clamp(200px, 80%, 400px);">
-                        </ng-template>
+                    <div class="header d-flex justify-content-between align-items-start">
+                        <!-- NOME POI -->
+                        <div class="container-nome">
+                            @if (mode === 'create' || mode === 'edit') {
+                            <div class="inter-bold">Nome villa:</div>
+                            }
+                            <div class="poi-title inter-bold">
+                                <ng-container *ngIf="mode === 'view'; else editName">
+                                    {{ poi.name }}
+                                </ng-container>
+                                <ng-template #editName>
+                                    <input type="text" [(ngModel)]="poi.name" class="form-control" maxlength="75"
+                                        style="width: clamp(200px, 80%, 400px);">
+                                </ng-template>
+                            </div>
+                        </div>
+
+                        <!-- BOTTONE PER CHIUDERE LA SCHEDA -->
+                        <i class="ri-close-large-line fs-3 btn-red btn-close-custom" (click)="close()"></i>
                     </div>
 
                     <!-- CAMBIO SEZIONE -->
                     <div class="change-section-container d-flex gap-2 py-3 inter-normal">
                         @for (section of sections; track section.id) {
                         @if (!this.isDesktop || section.id !== 0) {
-                        <div class="section-pill" [class.active]="selectedSection === section.id"
+                        <div class="section-pill inter-semibold" [class.active]="selectedSection === section.id"
                             (click)="selectSection(section.id)">
                             {{ section.title }}
                         </div>
@@ -52,9 +59,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- BOTTONE PER CHIUDERE LA SCHEDA -->
-            <i class="ri-close-large-line fs-3 btn-red btn-close-custom" (click)="close()"></i>
         </div>
     </div>
 </div>

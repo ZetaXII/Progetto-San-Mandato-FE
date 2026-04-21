@@ -57,11 +57,6 @@ textarea {
 }
 
 .btn-close-custom {
-    position: absolute;
-    border-radius: 0.8rem;
-    top: 0rem;
-    right: 0rem;
-    margin: 1rem 1rem 0 0;
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1rem !important;
@@ -234,10 +229,6 @@ textarea {
         max-height: none !important;
     }
 
-    .btn-close-custom {
-        margin: 1rem;
-    }
-
     .change-section-container {
         top: -18px !important;
         z-index: 1;
@@ -267,11 +258,11 @@ textarea {
     color: $white;
     border-radius: 6px;
     padding: 0.4em 0.8em;
-    font-size: 0.725rem; // ← 11.6px più visibile
+    font-size: 0.725rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.15px;
-    line-height: 1.2; // ← Leggermente più alto
+    line-height: 1.2;
     align-self: flex-start;
 }
 
