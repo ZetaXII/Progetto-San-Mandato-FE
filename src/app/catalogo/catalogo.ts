@@ -5,6 +5,7 @@ import { arraySecoli, gruppiArea, PageResponse, Poi } from '../../assets/entitie
 import { PoiService } from '../../assets/services/poi-service';
 import { CardPoi } from '../card-poi/card-poi';
 import { PoiDetail } from '../poi-detail/poi-detail';
+import { Observable } from 'rxjs';
 
 export interface SearchPoisByFilters {
   name?: string;
@@ -30,6 +31,7 @@ export class Catalogo implements OnInit {
   poisPage!: PageResponse<Poi>;
   showScrollBar: boolean = true;
   showFilterPanel: boolean = false;
+  poiList$: Observable<Poi[]>;
 
   GRUPPI_AREA = gruppiArea;
   SECOLI = arraySecoli;
@@ -37,9 +39,12 @@ export class Catalogo implements OnInit {
   private _pageSize = 0;
   private _searchTimeout: any;
 
-  constructor(private _poiService: PoiService, private cdr: ChangeDetectorRef) {
-    this._pageSize = this._poiService.PAGE_SIZE;
+  constructor(
+    public poiService: PoiService,
+    private cdr: ChangeDetectorRef) {
+    this._pageSize = this.poiService.PAGE_SIZE;
     this._initSearchPoiByFIlters();
+    this.poiList$ = this.poiService.poiList$;
   }
 
   ngOnInit() {
@@ -56,14 +61,14 @@ export class Catalogo implements OnInit {
     this.isLoading = true;
     this.cdr.detectChanges();
 
-    this._poiService.searchPois(this.searchPoisByFilters, 0, this._pageSize).subscribe({
+    this.poiService.searchPois(this.searchPoisByFilters, 0, this._pageSize).subscribe({
       next: (page) => {
         setTimeout(() => {
           this.poisPage = page;
           if (initStatusBool) {
             this.totalPois = page.totalElements;
           }
-          this.poiList = [...page.content];
+          this.poiService.setPoiList(page.content);
           this.isLoading = false;
           this.cdr.detectChanges();
         }, 500);
@@ -71,7 +76,7 @@ export class Catalogo implements OnInit {
       error: () => {
         setTimeout(() => {
           this.isLoading = false;
-          this.poiList = [];
+          this.poiService.setPoiList([]);
           this.cdr.detectChanges();
         }, 500);
       }
@@ -82,7 +87,7 @@ export class Catalogo implements OnInit {
     clearTimeout(this._searchTimeout);
     this._searchTimeout = setTimeout(() => {
       this.currentPage = 0;
-      this.poiList = [];
+      this.poiService.setPoiList([]);
       this.searchPois();
     }, 300);
   }
@@ -93,10 +98,10 @@ export class Catalogo implements OnInit {
     this.isLoading = true;
     this.cdr.detectChanges();
 
-    this._poiService.searchPois(this.searchPoisByFilters, this.currentPage, this._pageSize).subscribe({
+    this.poiService.searchPois(this.searchPoisByFilters, this.currentPage, this._pageSize).subscribe({
       next: (page) => {
         setTimeout(() => {
-          this.poiList = [...this.poiList, ...(page.content || [])];
+          this.poiService.setPoiList([...this.poiService.getPoiList(), ...(page.content || [])]);
           this.poisPage = page;
           this.totalPois = page.totalElements || 0;
           this.isLoading = false;
@@ -129,7 +134,7 @@ export class Catalogo implements OnInit {
   }
 
   onPoiClick(poi: Poi) {
-    this.selectedPoi = poi;
+    this.selectedPoi = structuredClone(poi);
     this.showScrollBar = false;
   }
 
@@ -152,8 +157,5 @@ export class Catalogo implements OnInit {
       isLocalized: undefined,
     };
   }
-
-  get poiList() { return this._poiService.poiList; }
-  set poiList(list: Poi[]) { this._poiService.poiList = list; }
 
 }

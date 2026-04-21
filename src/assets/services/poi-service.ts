@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { PageResponse, Poi, PoiCreateDto } from "../entities/poiEntities";
 
 @Injectable({
@@ -9,10 +9,34 @@ import { PageResponse, Poi, PoiCreateDto } from "../entities/poiEntities";
 export class PoiService {
   private apiUrl = 'http://localhost:8080/api/pois';
   public PAGE_SIZE = 32;
-  public poiList: Poi[] = [];
+  private _poiListSubject = new BehaviorSubject<Poi[]>([]);
+  poiList$ = this._poiListSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
+  // METODI PER BEHAVIOR SUBJECT PoiList
+  getPoiList(): Poi[] {
+    return this._poiListSubject.value;
+  }
+
+  setPoiList(list: Poi[]) {
+    this._poiListSubject.next(list);
+  }
+
+  updatePoiListElement(updated: Poi) {
+    const list = this.getPoiList();
+    const newList = list.map(p =>
+      p.uuid === updated.uuid ? { ...updated } : p
+    );
+    this.setPoiList(newList);
+  }
+
+  removePoiListElement(uuid: string) {
+    const newList = this._poiListSubject.value.filter(p => p.uuid !== uuid);
+    this.setPoiList(newList);
+  }
+
+  // METODI PER CONTATTARE API
   getAllPois(): Observable<Poi[]> {
     return this.http.get<Poi[]>(`${this.apiUrl}/getAll`);
   }
@@ -22,7 +46,6 @@ export class PoiService {
       .set('page', page.toString())
       .set('size', size.toString());
 
-    // aggiunge i filtri solo se valorizzati
     if (searchParams.name) {
       params = params.set('name', searchParams.name);
     }

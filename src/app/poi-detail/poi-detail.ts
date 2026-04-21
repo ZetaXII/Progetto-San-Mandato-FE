@@ -33,7 +33,7 @@ export class PoiDetail {
 
   constructor(
     public photoManagerService: PhotoManager,
-    private _poiService: PoiService,
+    public poiService: PoiService,
     private _popupAlertService: PopupAlertService,
   ) { }
 
@@ -88,26 +88,28 @@ export class PoiDetail {
       architectIds: this.poi.architects || []
     };
 
-    this._poiService.updatePoi(this.poi.uuid, poiCreateData)
+    this.poiService.updatePoi(this.poi.uuid, poiCreateData)
       .subscribe({
         next: (updatedPoi) => {
           console.log('POI aggiornato', updatedPoi);
 
           this.poi = structuredClone(updatedPoi);
           this.poiBackup = structuredClone(updatedPoi);
-          
+          this.poiService.updatePoiListElement(updatedPoi);
+
           this._popupAlertService.show('Salvataggio riuscito', 'Villa salvata correttamente', 1);
         },
         error: (err) => {
           console.error('Errore aggiornamento POI', err)
-          this._popupAlertService.show("Salvataggio non riuscito ("+err.status+")", err.message, 3);
+          this._popupAlertService.show("Salvataggio non riuscito (" + err.status + ")", err.message, 3);
         }
       });
   }
 
   // CHIUDE LA MODALE
   close() {
-    this.poi = this.poiBackup;
+    this.poi = null as any;
+    this.poiBackup = null as any;
     this.closeDetailPoi.emit();
   }
 

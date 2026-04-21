@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { _poiService } from './poi-service';
+import { poiService } from './poi-service';
 
-describe('_poiService', () => {
-  let service: _poiService;
+describe('poiService', () => {
+  let service: poiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(_poiService);
+    service = TestBed.inject(poiService);
   });
 
   it('should be created', () => {

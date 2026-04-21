@@ -63,9 +63,9 @@
             </div>
             }
 
-            @if (poiList.length > 0) {
+            @if (poiService.getPoiList().length > 0) {
             <div class="cards-grid">
-                @for (poi of poiList; track poi.uuid) {
+                @for (poi of poiList$ | async; track poi.uuid) {
                 <app-card-poi [poi]="poi" [isActive]="selectedPoi?.uuid === poi.uuid" (poiClick)="onPoiClick(poi)">
                 </app-card-poi>
                 }
