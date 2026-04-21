@@ -23,7 +23,6 @@ export interface SearchPoisByFilters {
 })
 export class Catalogo implements OnInit {
   selectedPoi: Poi | null = null;
-  poiList: Poi[] = [];
   searchPoisByFilters: SearchPoisByFilters = {};
   totalPois = 0;
   isLoading = false;
@@ -139,13 +138,8 @@ export class Catalogo implements OnInit {
     this.showScrollBar = true;
   }
 
-  trackByUuid(index: number, poi: Poi): string {
-    return poi.uuid;
-  }
-
   toggleShowFilterPanel() {
     this.showFilterPanel = !this.showFilterPanel;
-
   }
 
   resetFilters() {
@@ -158,5 +152,8 @@ export class Catalogo implements OnInit {
       isLocalized: undefined,
     };
   }
+
+  get poiList() { return this._poiService.poiList; }
+  set poiList(list: Poi[]) { this._poiService.poiList = list; }
 
 }

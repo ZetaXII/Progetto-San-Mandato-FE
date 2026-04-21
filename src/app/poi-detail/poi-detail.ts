@@ -92,7 +92,10 @@ export class PoiDetail {
       .subscribe({
         next: (updatedPoi) => {
           console.log('POI aggiornato', updatedPoi);
+
           this.poi = structuredClone(updatedPoi);
+          this.poiBackup = structuredClone(updatedPoi);
+          
           this._popupAlertService.show('Salvataggio riuscito', 'Villa salvata correttamente', 1);
         },
         error: (err) => {
@@ -126,7 +129,7 @@ export class PoiDetail {
   @HostListener('window:resize')
   onResize() {
     this.isDesktop = window.innerWidth >= 769;
-    // SE LO SCHERMO É MAGGIORE DI 769px E SONO NELLA SEZIONE "DETTAGLIO"ALLORA LO SPOSTO ALLA SEZIONE SUCCESSIVA DA DESKTOP
+    // SE LO SCHERMO É MAGGIORE DI 769px E SONO NELLA SEZIONE "DETTAGLIO" ALLORA LO SPOSTO ALLA SEZIONE SUCCESSIVA DA DESKTOP
     if (this.isDesktop && this.selectedSection === 0) {
       this.selectedSection = 1;
     }

@@ -65,9 +65,10 @@
 
             @if (poiList.length > 0) {
             <div class="cards-grid">
-                <app-card-poi *ngFor="let poi of poiList; trackBy: trackByUuid" [poi]="poi"
-                    [isActive]="selectedPoi?.uuid === poi.uuid" (poiClick)="onPoiClick(poi)">
+                @for (poi of poiList; track poi.uuid) {
+                <app-card-poi [poi]="poi" [isActive]="selectedPoi?.uuid === poi.uuid" (poiClick)="onPoiClick(poi)">
                 </app-card-poi>
+                }
             </div>
             } @else if (!isLoading) {
             <div class="empty-state text-center py-5" style="margin-top: 10rem;">

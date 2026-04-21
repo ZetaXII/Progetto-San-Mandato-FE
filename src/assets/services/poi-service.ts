@@ -9,6 +9,7 @@ import { PageResponse, Poi, PoiCreateDto } from "../entities/poiEntities";
 export class PoiService {
   private apiUrl = 'http://localhost:8080/api/pois';
   public PAGE_SIZE = 32;
+  public poiList: Poi[] = [];
 
   constructor(private http: HttpClient) { }
 
