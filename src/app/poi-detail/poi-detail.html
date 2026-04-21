@@ -23,7 +23,7 @@
                                     {{ poi.name }}
                                 </ng-container>
                                 <ng-template #editName>
-                                    <input type="text" [(ngModel)]="poi.name" class="form-control" maxlength="75"
+                                    <input type="text" [(ngModel)]="poi.name" class="form-control" maxlength="255"
                                         style="width: clamp(200px, 80%, 400px);">
                                 </ng-template>
                             </div>
@@ -34,7 +34,7 @@
                     </div>
 
                     <!-- CAMBIO SEZIONE -->
-                    <div class="change-section-container d-flex gap-2 py-3 inter-normal">
+                    <div class="change-section-container d-flex gap-2 py-3 inter-regular">
                         @for (section of sections; track section.id) {
                         @if (!this.isDesktop || section.id !== 0) {
                         <div class="section-pill inter-semibold" [class.active]="selectedSection === section.id"
@@ -111,7 +111,7 @@
         <div>
             <div class="inter-bold">Indirizzo:</div>
             <ng-container *ngIf="mode === 'view'; else editAddress">
-                <div class="inter-normal d-flex gap-2 align-items-center">
+                <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-map-pin-line detail-poi-custom-icon"></i>{{poi.address}}
                 </div>
             </ng-container>
@@ -124,7 +124,7 @@
         <div>
             <div class="inter-bold">Coordinate:</div>
             <ng-container *ngIf="mode === 'view'; else editCoords">
-                <div class="inter-normal d-flex gap-2 align-items-center">
+                <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-map-2-line detail-poi-custom-icon"></i>{{poi.longitude}},
                     {{poi.latitude}}
                 </div>
@@ -141,7 +141,7 @@
         <div>
             <div class="inter-bold">Cronologia della villa:</div>
             <ng-container *ngIf="mode === 'view'; else editCentury">
-                <div class="inter-normal d-flex gap-2 align-items-center">
+                <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-history-line detail-poi-custom-icon"></i>{{poi.constructionCentury}}
                 </div>
             </ng-container>
@@ -156,7 +156,7 @@
         <div>
             <div class="inter-bold">Localizzazione:</div>
             <ng-container *ngIf="mode === 'view'; else editLocalized">
-                <div class="inter-normal d-flex gap-2 align-items-center">
+                <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-navigation-line detail-poi-custom-icon"></i>
                     {{poi.localized ? 'Precisa' : 'Non precisa'}}
                 </div>

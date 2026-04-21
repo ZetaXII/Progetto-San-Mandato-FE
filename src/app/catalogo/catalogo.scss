@@ -59,21 +59,24 @@
         color: $half-red;
     }
 
-    // Grid 8/riga USATO
-    .cards-grid-8 {
+    .cards-grid {
         display: grid;
         grid-template-columns: repeat(8, 1fr);
-        gap: 0.5rem;
+        gap: 1rem;
 
-        @media (max-width: 1500px) {
+        @media (min-width: 1601px) {
+            grid-template-columns: repeat(8, 1fr);
+        }
+
+        @media (max-width: 1600px) {
             grid-template-columns: repeat(4, 1fr);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
             grid-template-columns: repeat(2, 1fr);
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 580px) {
             grid-template-columns: 1fr;
         }
     }

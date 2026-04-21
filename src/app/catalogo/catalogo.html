@@ -20,7 +20,7 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <div class="search-wrapper search-name">
                             <i class="ri-search-line custom-icon"></i>
-                            <input type="text" class="search-input filter-search-name inter-normal"
+                            <input type="text" class="search-input filter-search-name inter-regular"
                                 placeholder="Cerca nel catalogo..." [(ngModel)]="searchPoisByFilters.name"
                                 (input)="onSearchInput()">
                         </div>
@@ -64,7 +64,7 @@
             }
 
             @if (poiList.length > 0) {
-            <div class="cards-grid-8">
+            <div class="cards-grid">
                 <app-card-poi *ngFor="let poi of poiList; trackBy: trackByUuid" [poi]="poi"
                     [isActive]="selectedPoi?.uuid === poi.uuid" (poiClick)="onPoiClick(poi)">
                 </app-card-poi>
@@ -102,7 +102,7 @@
 
                     <div class="search-wrapper search-filter">
                         <i class="ri-building-line custom-icon"></i>
-                        <select id="zona" class="search-input inter-normal" [(ngModel)]="searchPoisByFilters.areaGroup"
+                        <select id="zona" class="search-input inter-regular" [(ngModel)]="searchPoisByFilters.areaGroup"
                             (change)="onSearchInput()">
                             <option value="" selected>Tutti</option>
                             <option *ngFor="let area of GRUPPI_AREA" [value]="area">
@@ -121,7 +121,7 @@
 
                     <div class="search-wrapper search-filter">
                         <i class="ri-time-line custom-icon"></i>
-                        <select id="secolo" class="search-input inter-normal"
+                        <select id="secolo" class="search-input inter-regular"
                             [(ngModel)]="searchPoisByFilters.constructionCentury" (change)="onSearchInput()">
                             <option value="" selected>Tutti</option>
                             <option *ngFor="let century of SECOLI" [value]="century">
@@ -140,7 +140,7 @@
 
                     <div class="search-wrapper search-filter">
                         <i class="ri-gps-line custom-icon"></i>
-                        <select id="isLocalized" class="search-input inter-normal"
+                        <select id="isLocalized" class="search-input inter-regular"
                             [(ngModel)]="searchPoisByFilters.isLocalized" (change)="onSearchInput()">
                             <option [ngValue]="undefined" selected>Tutte</option>
                             <option [ngValue]="true">Precisa</option>

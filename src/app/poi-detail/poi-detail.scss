@@ -25,7 +25,7 @@
     background: $white;
     box-shadow: 0 25px 80px rgba(56, 4, 14, 0.25);
     border: 1px solid rgba($half-red, 0.15);
-    border-radius: 1rem;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     animation: fadeInUp 0.5s ease-out;
@@ -98,7 +98,10 @@ textarea {
     padding: 1rem;
 
     .poi-title {
-        font-size: 2.5rem;
+        font-size: 32px;
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
     }
 
     .poi-subtitle {
@@ -258,7 +261,7 @@ textarea {
     color: $white;
     border-radius: 6px;
     padding: 0.4em 0.8em;
-    font-size: 0.725rem;
+    font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.15px;
