@@ -2,10 +2,11 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, Observable } from 'rxjs';
-import { AlertData, PopupAlertService } from '../assets/services/popup-alert-service';
 import { Footer } from "./footer/footer";
 import { Navbar } from './navbar/navbar';
 import { PopupAlert } from './popup-alert/popup-alert';
+import { PopupAlertService } from '../assets/services/popup-alert-service';
+import { AlertData } from '../assets/entities/popupAlertEntities';
 
 @Component({
   selector: 'app-root',
