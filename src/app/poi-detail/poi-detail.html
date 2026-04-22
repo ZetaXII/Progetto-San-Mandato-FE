@@ -49,6 +49,7 @@
                         <ng-container *ngTemplateOutlet="poiDetailMobile"></ng-container>
                         <ng-container *ngTemplateOutlet="descrizioneGenerale"></ng-container>
                         <ng-container *ngTemplateOutlet="statoAttuale"></ng-container>
+                        <ng-container *ngTemplateOutlet="fontiStoriche"></ng-container>
                         <ng-container *ngTemplateOutlet="bibliografia"></ng-container>
                     </div>
 
@@ -59,6 +60,10 @@
                 </div>
             </div>
         </div>
+
+        <app-fonte-detail *ngIf="showFonteModal" [fonte]="selectedFonte" [path]="pathFonte"
+            (closeModal)="closeFonteDetail()"></app-fonte-detail>
+
     </div>
 </div>
 
@@ -225,11 +230,55 @@
 </ng-template>
 <!------------------------->
 
+<!-- FONTI STORICHE -->
+<ng-template #fontiStoriche>
+    @if (selectedSection === 3) {
+
+    <!-- FONTI ARCHIVISTICHE -->
+    <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
+        <span class="inter-semibold">Fonti archivistiche</span>
+    </div>
+
+    <!-- LISTA FONTI -->
+    <div class="fonti-list long-text scrollable-div">
+        <div class="card-fonte" *ngFor="let fonte of fonti">
+            <div class="card-title" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti archivistiche')">{{
+                fonte.nome }}</div>
+        </div>
+    </div>
+
+    <!-- FONTI PARIEGETICHE -->
+    <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
+        <span class="inter-semibold">Fonti pariegetiche</span>
+    </div>
+
+    <!-- LISTA FONTI -->
+    <div class="fonti-list long-text scrollable-div">
+        <div class="card-fonte" *ngFor="let fonte of fonti">
+            <div class="card-title" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti pariegetiche')">{{
+                fonte.nome }}</div>
+        </div>
+    </div>
+
+    <!-- FONTI PARIEGETICHE -->
+    <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
+        <span class="inter-semibold">Fonti pariegetiche</span>
+    </div>
+
+    <div class="fonti-list long-text scrollable-div">
+        <div class="card-fonte" *ngFor="let fonte of fonti">
+            <div class="card-title">{{ fonte.nome }}</div>
+        </div>
+    </div>
+    }
+</ng-template>
+<!------------------------->
+
 <!-- BIBLIOGRAFIA -->
 <ng-template #bibliografia>
-    @if (selectedSection === 3) {
+    @if (selectedSection === 4) {
     <div class="poi-subtitle fw-semibold d-flex align-items-center">
-        <span class="inter-semibold">{{sections[3].title}}</span>
+        <span class="inter-semibold">{{sections[4].title}}</span>
     </div>
 
     <ng-container *ngIf="mode === 'view'; else editSection">

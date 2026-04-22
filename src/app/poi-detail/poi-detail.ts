@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { PoiService } from '../../assets/services/poi-service';
 import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
+import { FonteDetail } from '../fonte-detail/fonte-detail';
 
 interface Section {
   id: number,
@@ -14,7 +15,7 @@ interface Section {
 
 @Component({
   selector: 'app-poi-detail',
-  imports: [CommonModule, FormsModule, MarkdownPipe],
+  imports: [CommonModule, FormsModule, MarkdownPipe, FonteDetail],
   templateUrl: './poi-detail.html',
   styleUrl: './poi-detail.scss',
   standalone: true
@@ -49,7 +50,8 @@ export class PoiDetail {
       { id: 0, title: "Dettagli" },
       { id: 1, title: "Descrizione generale" },
       { id: 2, title: "Stato attuale" },
-      { id: 3, title: "Bibliografia" },
+      { id: 3, title: "Fonti storiche" },
+      { id: 4, title: "Bibliografia" },
     ];
     // SETTO LA SEZIONE DA MOSTRARE ALL'AVVIO
     this.selectedSection = this.isDesktop ? 1 : 0;
@@ -135,5 +137,59 @@ export class PoiDetail {
     if (this.isDesktop && this.selectedSection === 0) {
       this.selectedSection = 1;
     }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  fonti = [
+    { nome: 'Archivio di Stato di Napoli' },
+    { nome: 'Biblioteca Nazionale' },
+    { nome: 'Archivio Storico Comunale' },
+    { nome: 'Catasto Murattiano' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+    { nome: 'Archivio Parrocchiale' },
+  ];
+
+  selectedFonte: any = null;
+  showFonteModal = false;
+  pathFonte = "";
+
+  openFonteDetail(fonte: any, sezione?: string, voce?: string) {
+    this.selectedFonte = fonte;
+    this.showFonteModal = true;
+    this.pathFonte = sezione+" > "+voce+" > "+fonte.nome;
+  }
+
+  closeFonteDetail() {
+    this.showFonteModal = false;
+    this.selectedFonte = null;
   }
 }
