@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, Output, SimpleChanges } from '@angular/core';
-import { arraySecoli, gruppiArea, Poi, PoiCreateDto } from '../../assets/entities/poiEntities';
-import { PhotoManager } from '../../assets/services/photo-manager';
 import { FormsModule } from '@angular/forms';
-import { PoiService } from '../../assets/services/poi-service';
+import { arraySecoli, gruppiArea, Poi, PoiCreateDto } from '../../assets/entities/poiEntities';
+import { SourceTypeEnum } from '../../assets/entities/sourceEntities';
 import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
+import { PhotoManager } from '../../assets/services/photo-manager';
+import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
 import { FonteDetail } from '../fonte-detail/fonte-detail';
 
@@ -31,6 +32,7 @@ export class PoiDetail {
 
   GRUPPI_AREA = gruppiArea;
   SECOLI = arraySecoli;
+  SOURCE_TYPES = SourceTypeEnum;
 
   constructor(
     public photoManagerService: PhotoManager,
@@ -139,53 +141,18 @@ export class PoiDetail {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  fonti = [
-    { nome: 'Archivio di Stato di Napoli' },
-    { nome: 'Biblioteca Nazionale' },
-    { nome: 'Archivio Storico Comunale' },
-    { nome: 'Catasto Murattiano' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-    { nome: 'Archivio Parrocchiale' },
-  ];
-
   selectedFonte: any = null;
   showFonteModal = false;
   pathFonte = "";
 
+  getFontiByTipologia(tipologia: SourceTypeEnum) {
+    return this.poi.sources.filter(fonte => fonte.tipologia === tipologia);
+  }
+
   openFonteDetail(fonte: any, sezione?: string, voce?: string) {
     this.selectedFonte = fonte;
     this.showFonteModal = true;
-    this.pathFonte = sezione+" > "+voce+" > "+fonte.nome;
+    this.pathFonte = sezione + " > " + voce + " > " + fonte.titolo;
   }
 
   closeFonteDetail() {

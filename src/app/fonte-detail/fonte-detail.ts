@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Source } from '../../assets/entities/sourceEntities';
 
 @Component({
   selector: 'app-fonte-detail',
@@ -6,8 +7,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrl: './fonte-detail.scss',
 })
 export class FonteDetail {
-  @Input() fonte: any;
-  @Input() path: any;
+  @Input() fonte!: Source;
+  @Input() path!: any;
   @Output() closeModal = new EventEmitter<void>();
 
   close() {

@@ -1,3 +1,5 @@
+import { Source } from "./sourceEntities";
+
 export interface PoiCreateDto {
     name: string;
     isLocalized: boolean;
@@ -27,6 +29,7 @@ export interface Poi {
     bibliography: string;
     coverImageUrl: string;
     architects: string[];
+    sources: Source[];
 }
 
 export interface PageResponse<T> {

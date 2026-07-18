@@ -61,6 +61,7 @@
             </div>
         </div>
 
+        <!-- MODALE DETTAGLIO FONTE -->
         <app-fonte-detail *ngIf="showFonteModal" [fonte]="selectedFonte" [path]="pathFonte"
             (closeModal)="closeFonteDetail()"></app-fonte-detail>
 
@@ -236,41 +237,56 @@
 
     <!-- FONTI ARCHIVISTICHE -->
     <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
-        <span class="inter-semibold">Fonti archivistiche</span>
+        <span class="inter-semibold">Fonti Archivistiche</span>
     </div>
-
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
-        <div class="card-fonte" *ngFor="let fonte of fonti">
-            <div class="card-title" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti archivistiche')">{{
-                fonte.nome }}</div>
+        @for (fonte of getFontiByTipologia(SOURCE_TYPES.ARCHIVISTICA); track fonte.uuid) {
+        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti Archivistiche')">
+            <div class="card-title">
+                {{ fonte.titolo }}
+            </div>
         </div>
+        } @empty {
+        <div class="text-muted py-2">Nessuna fonte archivistica disponibile</div>
+        }
     </div>
 
     <!-- FONTI PARIEGETICHE -->
     <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
-        <span class="inter-semibold">Fonti pariegetiche</span>
+        <span class="inter-semibold">Fonti Pariegetiche</span>
     </div>
-
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
-        <div class="card-fonte" *ngFor="let fonte of fonti">
-            <div class="card-title" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti pariegetiche')">{{
-                fonte.nome }}</div>
+        @for (fonte of getFontiByTipologia(SOURCE_TYPES.PARIEGETICA); track fonte.uuid) {
+        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti Pariegetiche')">
+            <div class="card-title">
+                {{ fonte.titolo }}
+            </div>
         </div>
+        } @empty {
+        <div class="text-muted py-2">Nessuna fonte pariegetica disponibile</div>
+        }
     </div>
 
-    <!-- FONTI PARIEGETICHE -->
+    <!-- FONTI LETTERARIE -->
     <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
-        <span class="inter-semibold">Fonti pariegetiche</span>
+        <span class="inter-semibold">Fonti Letterarie</span>
     </div>
-
+    <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
-        <div class="card-fonte" *ngFor="let fonte of fonti">
-            <div class="card-title">{{ fonte.nome }}</div>
+        @for (fonte of getFontiByTipologia(SOURCE_TYPES.LETTERARIA); track fonte.uuid) {
+        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti Letterarie')">
+            <div class="card-title">
+                {{ fonte.titolo }}
+            </div>
         </div>
+        } @empty {
+        <div class="text-muted py-2">Nessuna fonte letteraria disponibile</div>
+        }
     </div>
     }
+
 </ng-template>
 <!------------------------->
 
