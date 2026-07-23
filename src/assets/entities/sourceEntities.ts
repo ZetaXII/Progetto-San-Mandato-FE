@@ -9,7 +9,7 @@ export interface Source {
     titolo: string;
     tipologia: SourceTypeEnum;
     riferimento: string;
-    secolo: number | null;
+    secolo: string | null;
     anno: number | null;
     trascrizione: string;
 }

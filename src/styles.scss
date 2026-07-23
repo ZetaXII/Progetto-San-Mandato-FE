@@ -21,7 +21,7 @@ $half-blue: #1a5e8c; // Blu medio caldo
 $light-blue: #3399ff; // Blu intenso
 
 * {
-    font-family: "Puritan", sans-serif;
+    font-family: "Inter", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
@@ -62,7 +62,7 @@ $light-blue: #3399ff; // Blu intenso
 
 .puritan-bold {
     font-family: "Puritan", sans-serif;
-    font-weight: 700;
+    font-weight: 800;
     font-style: normal;
 }
 
@@ -74,7 +74,7 @@ $light-blue: #3399ff; // Blu intenso
 
 .puritan-bold-italic {
     font-family: "Puritan", sans-serif;
-    font-weight: 700;
+    font-weight: 800;
     font-style: italic;
 }
 
@@ -94,7 +94,7 @@ $light-blue: #3399ff; // Blu intenso
 .inter-bold {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 ///// BOTTONI /////
@@ -119,7 +119,7 @@ $light-blue: #3399ff; // Blu intenso
     &:hover {
         background: rgba(255, 255, 255, 0.2);
         border-color: rgba(255, 255, 255, 0.5);
-        transform: scale(1.05);
+        transform: scale(1.02);
     }
 }
 
@@ -230,6 +230,34 @@ $light-blue: #3399ff; // Blu intenso
         border-color: rgba($light-blue, 1);
         color: $white;
     }
+}
+
+.btn-actions-custom {
+    width: 100%;
+    height: 2.5rem;
+}
+
+.btn-close-custom {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem !important;
+    z-index: 999;
+}
+
+.btn-white {
+    @include button-ghost-white
+}
+
+.btn-red {
+    @include button-red;
+}
+
+.btn-green {
+    @include button-green;
+}
+
+.btn-blue {
+    @include button-blue;
 }
 
 //////////////////////////////////////////////////////

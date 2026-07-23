@@ -14,11 +14,11 @@
                     <div class="header d-flex justify-content-between align-items-start">
                         <!-- NOME POI -->
                         <div class="container-nome">
-                            @if (mode === 'create' || mode === 'edit') {
+                            @if (mode === VIEW_MODE.CREATE || mode === VIEW_MODE.EDIT) {
                             <div class="inter-bold">Nome villa:</div>
                             }
                             <div class="poi-title inter-bold">
-                                <ng-container *ngIf="mode === 'view'; else editName">
+                                <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editName">
                                     {{ poi.name }}
                                 </ng-container>
                                 <ng-template #editName>
@@ -74,17 +74,18 @@
     <div class="d-flex gap-2 justify-content-center align-items-center w-100">
 
         <!-- BTN MODIFICA -->
-        <button class="btn-blue btn-actions-custom" (click)="toggleEditPoiMode()" *ngIf="mode === 'view'">
+        <button class="btn-blue btn-actions-custom" (click)="toggleEditPoiMode()" *ngIf="mode === VIEW_MODE.VIEW">
             Modifica
         </button>
 
         <!-- BTN ANNULLA -->
-        <button class="btn-red btn-actions-custom" (click)="toggleViewPoiMode()" *ngIf="mode === 'edit'">
+        <button class="btn-red btn-actions-custom" (click)="toggleViewPoiMode()" *ngIf="mode === VIEW_MODE.EDIT">
             Annulla
         </button>
 
         <!-- BTN SALVA -->
-        <button class="btn-green btn-actions-custom" (click)="savePoi()" *ngIf="mode === 'edit' || mode === 'create'">
+        <button class="btn-green btn-actions-custom" (click)="savePoi()"
+            *ngIf="mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE">
             Salva
         </button>
     </div>
@@ -101,8 +102,8 @@
 
         <!-- AREA GROUP -->
         <div class="gap-2">
-            <div class="inter-bold" *ngIf="mode === 'edit' || mode === 'create'">Gruppo area:</div>
-            <ng-container *ngIf="mode === 'view'; else editAreaGroup">
+            <div class="inter-bold" *ngIf="mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE">Gruppo area:</div>
+            <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editAreaGroup">
                 <div class="info-area-group-pill fw-bold">{{poi.areaGroup}}</div>
             </ng-container>
             <ng-template #editAreaGroup>
@@ -115,7 +116,7 @@
         <!-- INDIRIZZO -->
         <div>
             <div class="inter-bold">Indirizzo:</div>
-            <ng-container *ngIf="mode === 'view'; else editAddress">
+            <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editAddress">
                 <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-map-pin-line detail-poi-custom-icon"></i>{{poi.address}}
                 </div>
@@ -128,7 +129,7 @@
         <!-- COORDINATE -->
         <div>
             <div class="inter-bold">Coordinate:</div>
-            <ng-container *ngIf="mode === 'view'; else editCoords">
+            <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editCoords">
                 <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-map-2-line detail-poi-custom-icon"></i>{{poi.longitude}},
                     {{poi.latitude}}
@@ -145,7 +146,7 @@
         <!-- CRONOLOGIA -->
         <div>
             <div class="inter-bold">Cronologia della villa:</div>
-            <ng-container *ngIf="mode === 'view'; else editCentury">
+            <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editCentury">
                 <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-history-line detail-poi-custom-icon"></i>{{poi.constructionCentury}}
                 </div>
@@ -160,7 +161,7 @@
         <!-- LOCALIZZAZIONE -->
         <div>
             <div class="inter-bold">Localizzazione:</div>
-            <ng-container *ngIf="mode === 'view'; else editLocalized">
+            <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editLocalized">
                 <div class="inter-regular d-flex gap-2 align-items-center">
                     <i class="ri-navigation-line detail-poi-custom-icon"></i>
                     {{poi.localized ? 'Precisa' : 'Non precisa'}}
@@ -200,7 +201,7 @@
         <span class="inter-semibold">{{sections[1].title}}</span>
     </div>
 
-    <ng-container *ngIf="mode === 'view'; else editSection">
+    <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editSection">
         <div class="long-text scrollable-div pe-3">
             <span [innerHTML]="poi.generalDescription | markdown"></span>
         </div>
@@ -219,7 +220,7 @@
         <span class="inter-semibold">{{sections[2].title}}</span>
     </div>
 
-    <ng-container *ngIf="mode === 'view'; else editSection">
+    <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editSection">
         <div class="long-text scrollable-div pe-3">
             <span [innerHTML]="poi.currentStatus | markdown"></span>
         </div>
@@ -237,12 +238,12 @@
 
     <!-- FONTI ARCHIVISTICHE -->
     <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">
-        <span class="inter-semibold">Fonti Archivistiche</span>
+        <span class="inter-semibold">Fonti archivistiche</span>
     </div>
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
         @for (fonte of getFontiByTipologia(SOURCE_TYPES.ARCHIVISTICA); track fonte.uuid) {
-        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti Archivistiche')">
+        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title)">
             <div class="card-title">
                 {{ fonte.titolo }}
             </div>
@@ -259,7 +260,7 @@
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
         @for (fonte of getFontiByTipologia(SOURCE_TYPES.PARIEGETICA); track fonte.uuid) {
-        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti Pariegetiche')">
+        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title)">
             <div class="card-title">
                 {{ fonte.titolo }}
             </div>
@@ -276,7 +277,7 @@
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
         @for (fonte of getFontiByTipologia(SOURCE_TYPES.LETTERARIA); track fonte.uuid) {
-        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title, 'Fonti Letterarie')">
+        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title)">
             <div class="card-title">
                 {{ fonte.titolo }}
             </div>
@@ -297,7 +298,7 @@
         <span class="inter-semibold">{{sections[4].title}}</span>
     </div>
 
-    <ng-container *ngIf="mode === 'view'; else editSection">
+    <ng-container *ngIf="mode === VIEW_MODE.VIEW; else editSection">
         <div class="long-text scrollable-div pe-3">
             <span [innerHTML]="poi.bibliography | markdown"></span>
         </div>

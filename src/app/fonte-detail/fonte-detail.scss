@@ -1,7 +1,7 @@
 @use '../../styles' as *;
 
 .fonte-modal {
-    position: absolute; // 👈 NON fixed
+    position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
@@ -29,12 +29,46 @@
 }
 
 .btn-back {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1rem !important;
+    font-size: 2.8rem !important;
     z-index: 999;
+    color: $half-red;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: $dark-red;
+    }
 }
 
-.btn-red {
-    @include button-red;
+.fonte-titolo {
+    font-size: 36px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.fonte-secolo-anno-pill {
+    display: inline-flex;
+    background: $half-red;
+    color: $white;
+    border-radius: 100px;
+    padding: 0.4em 0.8em;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.16px;
+    align-self: flex-start;
+    margin-bottom: 32px;
+}
+
+.fonte-riferimento {
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: capitalize;
+    line-height: 1.2;
+}
+
+.fonte-trascrizione {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: justify;
 }

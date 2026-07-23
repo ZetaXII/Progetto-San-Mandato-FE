@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { arraySecoli, gruppiArea, Poi, PoiCreateDto } from '../../assets/entities/poiEntities';
-import { SourceTypeEnum } from '../../assets/entities/sourceEntities';
+import { Source, SourceTypeEnum } from '../../assets/entities/sourceEntities';
 import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
 import { PhotoManager } from '../../assets/services/photo-manager';
 import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
 import { FonteDetail } from '../fonte-detail/fonte-detail';
+import { ViewMode } from '../../assets/entities/ViewMode';
 
 interface Section {
   id: number,
@@ -22,17 +23,21 @@ interface Section {
   standalone: true
 })
 export class PoiDetail {
-  mode: 'view' | 'edit' | 'create' = 'view';
+  VIEW_MODE = ViewMode;
+  GRUPPI_AREA = gruppiArea;
+  SECOLI = arraySecoli;
+  SOURCE_TYPES = SourceTypeEnum;
+
+  mode: ViewMode = this.VIEW_MODE.VIEW;
   @Input() poi!: Poi;
   @Output() closeDetailPoi = new EventEmitter<void>();
   sections: Section[] = [];
   selectedSection: number = 0;
+  selectedFonte: Source | null = null;
+  showFonteModal = false;
+  pathFonte = "";
   poiBackup!: Poi;
   isDesktop = window.innerWidth >= 769;
-
-  GRUPPI_AREA = gruppiArea;
-  SECOLI = arraySecoli;
-  SOURCE_TYPES = SourceTypeEnum;
 
   constructor(
     public photoManagerService: PhotoManager,
@@ -119,14 +124,14 @@ export class PoiDetail {
 
   // PER ATTIVARE LA MODALITÁ DI MODIFICA
   toggleEditPoiMode() {
-    this.mode = 'edit';
+    this.mode = this.VIEW_MODE.EDIT;
     this.poiBackup = structuredClone(this.poi);
     this.setSections();
   }
 
-  // PER ATTIVARE LA MODALITÁ DI MODIFICA
+  // PER ATTIVARE LA MODALITÁ DI VISUALIZZAZIONE
   toggleViewPoiMode() {
-    this.mode = 'view';
+    this.mode = this.VIEW_MODE.VIEW;
     this.poi = structuredClone(this.poiBackup);
     this.setSections();
   }
@@ -141,18 +146,14 @@ export class PoiDetail {
     }
   }
 
-  selectedFonte: any = null;
-  showFonteModal = false;
-  pathFonte = "";
-
   getFontiByTipologia(tipologia: SourceTypeEnum) {
     return this.poi.sources.filter(fonte => fonte.tipologia === tipologia);
   }
 
-  openFonteDetail(fonte: any, sezione?: string, voce?: string) {
+  openFonteDetail(fonte: any, sezione?: string) {
     this.selectedFonte = fonte;
     this.showFonteModal = true;
-    this.pathFonte = sezione + " > " + voce + " > " + fonte.titolo;
+    this.pathFonte = sezione + " > Fonte " + fonte.tipologia.toLowerCase() + " > " + fonte.titolo;
   }
 
   closeFonteDetail() {
