@@ -13,3 +13,12 @@ export interface Source {
     anno: number | null;
     trascrizione: string;
 }
+
+export interface SourceCreateDto {
+    titolo: string;
+    tipologia: SourceTypeEnum;
+    riferimento: string;
+    secolo: string | null;
+    anno: number | null;
+    trascrizione: string;
+}

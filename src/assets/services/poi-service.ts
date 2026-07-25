@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PageResponse, Poi, PoiCreateDto } from "../entities/poiEntities";
+import { Source, SourceCreateDto } from "../entities/sourceEntities";
 
 @Injectable({
   providedIn: 'root'
@@ -81,5 +82,9 @@ export class PoiService {
 
   deletePoi(uuid: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${uuid}`);
+  }
+
+  updateSource(poiUuid: string, sourceUuid: string, dto: SourceCreateDto): Observable<Source> {
+    return this.http.put<Source>(`${this.apiUrl}/${poiUuid}/sources/${sourceUuid}`, dto);
   }
 }

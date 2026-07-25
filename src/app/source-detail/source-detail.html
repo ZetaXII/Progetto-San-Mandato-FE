@@ -1,0 +1,132 @@
+<div class="source-modal">
+    <div class="backdrop" (click)="close()"></div>
+
+    <div class="modal-content">
+
+        <!-- BTN CHIUDI MODALE -->
+        <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
+            <i class="ri-arrow-left-s-line btn-back" (click)="close()"></i>
+            <span>{{path}}</span>
+        </div>
+
+        <!-- INFO FONTE -->
+        <div class="source-body" *ngIf="source">
+            <ng-container *ngTemplateOutlet="sourceTitolo"></ng-container>
+            <ng-container *ngTemplateOutlet="sourceSecoloAnno"></ng-container>
+            <ng-container *ngTemplateOutlet="sourceRiferimento"></ng-container>
+            <ng-container *ngTemplateOutlet="sourceTrascrizione"></ng-container>
+        </div>
+
+        <!-- CONTENITORE BTN AZIONI -->
+        <ng-container *ngTemplateOutlet="btnActions"></ng-container>
+
+    </div>
+</div>
+
+<!-- TEMPLATE TITOLO + TIPOLOGIA -->
+<ng-template #sourceTitolo>
+    <ng-container *ngIf="source">
+        @if (mode === VIEW_MODE.EDIT) {
+        <!-- TITOLO EDIT -->
+        <div class="mb-3">
+            <label class="form-label inter-semibold">Titolo:</label>
+            <input type="text" [(ngModel)]="source.titolo" class="form-control">
+        </div>
+
+        <!-- TIPOLOGIA EDIT -->
+        <div class="mb-3">
+            <label class="form-label inter-semibold">Tipologia:</label>
+            <select [(ngModel)]="source.tipologia" class="form-select">
+                @for (type of sourceTypes; track type) {
+                <option [value]="type">{{ type }}</option>
+                }
+            </select>
+        </div>
+        } @else {
+        <!-- TITOLO VIEW -->
+        <h1 class="source-titolo">
+            {{ source.titolo }}
+        </h1>
+        }
+    </ng-container>
+</ng-template>
+
+<!-- TEMPLATE SECOLO / ANNO -->
+<ng-template #sourceSecoloAnno>
+    <ng-container *ngIf="source">
+        @if (mode === VIEW_MODE.EDIT) {
+        <div class="row">
+            <!-- SECOLO -->
+            <div class="col-6 mb-3">
+                <label class="form-label inter-semibold">Secolo:</label>
+                <input type="text" [(ngModel)]="source.secolo" class="form-control" placeholder="es. XVI">
+            </div>
+
+            <!-- ANNO -->
+            <div class="col-6 mb-3">
+                <label class="form-label inter-semibold">Anno:</label>
+                <input type="number" [(ngModel)]="source.anno" class="form-control" placeholder="es. 1545">
+            </div>
+        </div>
+        } @else {
+        <p class="source-secolo-anno-pill">
+            {{ source.secolo }}&deg; Secolo &bull; Anno {{ source.anno }}
+        </p>
+        }
+    </ng-container>
+</ng-template>
+
+<!-- TEMPLATE RIFERIMENTO -->
+<ng-template #sourceRiferimento>
+    <ng-container *ngIf="source">
+        @if (mode === VIEW_MODE.EDIT) {
+        <div class="mb-3">
+            <label class="form-label inter-semibold">Riferimento:</label>
+            <input type="text" [(ngModel)]="source.riferimento" class="form-control">
+        </div>
+        } @else {
+        <h2 class="source-riferimento">
+            {{ source.riferimento }}
+        </h2>
+        }
+    </ng-container>
+</ng-template>
+
+<!-- TEMPLATE TRASCRIZIONE -->
+<ng-template #sourceTrascrizione>
+    <ng-container *ngIf="source">
+        @if (mode === VIEW_MODE.EDIT) {
+        <div class="trascrizione-edit-wrapper">
+            <label class="form-label inter-semibold">Trascrizione:</label>
+            <textarea [(ngModel)]="source.trascrizione" class="form-control trascrizione-textarea"></textarea>
+        </div>
+        } @else {
+        <p class="source-trascrizione">
+            {{ source.trascrizione }}
+        </p>
+        }
+    </ng-container>
+</ng-template>
+
+<!-- TEMPLATE BTN ACTIONS -->
+<ng-template #btnActions>
+    <div class="btn-actions-container d-flex gap-2 justify-content-center align-items-center w-100">
+
+        <!-- BTN MODIFICA -->
+        <button class="btn-blue btn-actions-custom" (click)="toggleEditSourceMode()" *ngIf="mode === VIEW_MODE.VIEW">
+            Modifica
+        </button>
+
+        <!-- BTN ANNULLA -->
+        <button class="btn-red btn-actions-custom" (click)="toggleViewSourceMode()" *ngIf="mode === VIEW_MODE.EDIT">
+            Annulla
+        </button>
+
+        <!-- BTN SALVA -->
+        <button class="btn-green btn-actions-custom" (click)="saveSource()"
+            *ngIf="mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE">
+            Salva
+        </button>
+
+    </div>
+</ng-template>

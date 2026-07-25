@@ -3,12 +3,12 @@ import { Component, EventEmitter, HostListener, Input, Output, SimpleChanges } f
 import { FormsModule } from '@angular/forms';
 import { arraySecoli, gruppiArea, Poi, PoiCreateDto } from '../../assets/entities/poiEntities';
 import { Source, SourceTypeEnum } from '../../assets/entities/sourceEntities';
+import { ViewMode } from '../../assets/entities/ViewMode';
 import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
 import { PhotoManager } from '../../assets/services/photo-manager';
 import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
-import { FonteDetail } from '../fonte-detail/fonte-detail';
-import { ViewMode } from '../../assets/entities/ViewMode';
+import { SourceDetail } from '../source-detail/source-detail';
 
 interface Section {
   id: number,
@@ -17,7 +17,7 @@ interface Section {
 
 @Component({
   selector: 'app-poi-detail',
-  imports: [CommonModule, FormsModule, MarkdownPipe, FonteDetail],
+  imports: [CommonModule, FormsModule, MarkdownPipe, SourceDetail],
   templateUrl: './poi-detail.html',
   styleUrl: './poi-detail.scss',
   standalone: true
@@ -33,9 +33,9 @@ export class PoiDetail {
   @Output() closeDetailPoi = new EventEmitter<void>();
   sections: Section[] = [];
   selectedSection: number = 0;
-  selectedFonte: Source | null = null;
-  showFonteModal = false;
-  pathFonte = "";
+  selectedSource: Source | null = null;
+  showSourceModal = false;
+  pathSource = "";
   poiBackup!: Poi;
   isDesktop = window.innerWidth >= 769;
 
@@ -78,8 +78,6 @@ export class PoiDetail {
 
   // SALVATAGGIO DI UN POI
   savePoi() {
-    console.log('POI da salvare', this.poi);
-
     if (!this.poi) return;
 
     const poiCreateData: PoiCreateDto = {
@@ -100,8 +98,6 @@ export class PoiDetail {
     this.poiService.updatePoi(this.poi.uuid, poiCreateData)
       .subscribe({
         next: (updatedPoi) => {
-          console.log('POI aggiornato', updatedPoi);
-
           this.poi = structuredClone(updatedPoi);
           this.poiBackup = structuredClone(updatedPoi);
           this.poiService.updatePoiListElement(updatedPoi);
@@ -147,17 +143,27 @@ export class PoiDetail {
   }
 
   getFontiByTipologia(tipologia: SourceTypeEnum) {
-    return this.poi.sources.filter(fonte => fonte.tipologia === tipologia);
+    return this.poi.sources.filter(source => source.tipologia === tipologia);
   }
 
-  openFonteDetail(fonte: any, sezione?: string) {
-    this.selectedFonte = fonte;
-    this.showFonteModal = true;
-    this.pathFonte = sezione + " > Fonte " + fonte.tipologia.toLowerCase() + " > " + fonte.titolo;
+  openSourceDetail(source: any, sezione?: string) {
+    this.selectedSource = source;
+    this.showSourceModal = true;
+    this.pathSource = sezione + " > ";
   }
 
-  closeFonteDetail() {
-    this.showFonteModal = false;
-    this.selectedFonte = null;
+  closeSourceDetail() {
+    this.showSourceModal = false;
+    this.selectedSource = null;
+  }
+
+  onSourceUpdated(updatedSource: Source) {
+    if (this.poi && this.poi.sources) {
+      const idx = this.poi.sources.findIndex(s => s.uuid === updatedSource.uuid);
+      if (idx !== -1) {
+        this.poi.sources[idx] = updatedSource;
+        this.poi = { ...this.poi };
+      }
+    }
   }
 }

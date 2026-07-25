@@ -62,8 +62,9 @@
         </div>
 
         <!-- MODALE DETTAGLIO FONTE -->
-        <app-fonte-detail *ngIf="showFonteModal" [fonte]="selectedFonte" [path]="pathFonte"
-            (closeModal)="closeFonteDetail()"></app-fonte-detail>
+        <app-source-detail *ngIf="showSourceModal" [source]="selectedSource" [initialPath]="pathSource"
+            [poiUuid]="poi.uuid" (closeModal)="closeSourceDetail()"
+            (sourceUpdated)="onSourceUpdated($event)"></app-source-detail>
 
     </div>
 </div>
@@ -242,14 +243,14 @@
     </div>
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
-        @for (fonte of getFontiByTipologia(SOURCE_TYPES.ARCHIVISTICA); track fonte.uuid) {
-        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title)">
+        @for (source of getFontiByTipologia(SOURCE_TYPES.ARCHIVISTICA); track source.uuid) {
+        <div class="card-source" (click)="openSourceDetail(source, sections[3].title)">
             <div class="card-title">
-                {{ fonte.titolo }}
+                {{ source.titolo }}
             </div>
         </div>
         } @empty {
-        <div class="text-muted py-2">Nessuna fonte archivistica disponibile</div>
+        <div class="text-muted py-2">Nessuna source archivistica disponibile</div>
         }
     </div>
 
@@ -259,14 +260,14 @@
     </div>
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
-        @for (fonte of getFontiByTipologia(SOURCE_TYPES.PARIEGETICA); track fonte.uuid) {
-        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title)">
+        @for (source of getFontiByTipologia(SOURCE_TYPES.PARIEGETICA); track source.uuid) {
+        <div class="card-source" (click)="openSourceDetail(source, sections[3].title)">
             <div class="card-title">
-                {{ fonte.titolo }}
+                {{ source.titolo }}
             </div>
         </div>
         } @empty {
-        <div class="text-muted py-2">Nessuna fonte pariegetica disponibile</div>
+        <div class="text-muted py-2">Nessuna source pariegetica disponibile</div>
         }
     </div>
 
@@ -276,14 +277,14 @@
     </div>
     <!-- LISTA FONTI -->
     <div class="fonti-list long-text scrollable-div">
-        @for (fonte of getFontiByTipologia(SOURCE_TYPES.LETTERARIA); track fonte.uuid) {
-        <div class="card-fonte" (click)="openFonteDetail(fonte, sections[3].title)">
+        @for (source of getFontiByTipologia(SOURCE_TYPES.LETTERARIA); track source.uuid) {
+        <div class="card-source" (click)="openSourceDetail(source, sections[3].title)">
             <div class="card-title">
-                {{ fonte.titolo }}
+                {{ source.titolo }}
             </div>
         </div>
         } @empty {
-        <div class="text-muted py-2">Nessuna fonte letteraria disponibile</div>
+        <div class="text-muted py-2">Nessuna source letteraria disponibile</div>
         }
     </div>
     }

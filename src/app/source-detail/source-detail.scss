@@ -1,6 +1,6 @@
 @use '../../styles' as *;
 
-.fonte-modal {
+.source-modal {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -25,7 +25,17 @@
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.source-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
 }
 
 .btn-back {
@@ -40,13 +50,13 @@
     }
 }
 
-.fonte-titolo {
+.source-titolo {
     font-size: 36px;
     font-weight: 800;
     text-transform: uppercase;
 }
 
-.fonte-secolo-anno-pill {
+.source-secolo-anno-pill {
     display: inline-flex;
     background: $half-red;
     color: $white;
@@ -59,16 +69,38 @@
     margin-bottom: 32px;
 }
 
-.fonte-riferimento {
+.source-riferimento {
     font-size: 24px;
     font-weight: 600;
     text-transform: capitalize;
     line-height: 1.2;
 }
 
-.fonte-trascrizione {
+.source-trascrizione {
     font-size: 16px;
     font-weight: 400;
     line-height: 1.6;
     text-align: justify;
+    overflow-y: auto;
+}
+
+// EDIT MODE: il wrapper della trascrizione occupa tutto lo spazio restante
+.trascrizione-edit-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.trascrizione-textarea {
+    flex: 1;
+    min-height: 0;
+    resize: none;
+    overflow-y: auto;
+}
+
+.btn-actions-container {
+    flex-shrink: 0;
+    padding-top: 0.75rem;
 }
