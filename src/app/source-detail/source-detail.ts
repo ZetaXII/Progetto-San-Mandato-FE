@@ -23,6 +23,7 @@ export class SourceDetail implements OnChanges {
   @Input() poiUuid!: string | null;
   @Output() closeModal = new EventEmitter<void>();
   @Output() sourceUpdated = new EventEmitter<Source>();
+  @Output() sourceDeleted = new EventEmitter<string>();
   sourceBackup!: Source | null;
   path!: string | null;
 
@@ -80,6 +81,12 @@ export class SourceDetail implements OnChanges {
         this.popupAlertService.show("Salvataggio non riuscito (" + err.status + ")", err.message, 3);
       }
     });
+  }
+
+  deleteSource() {
+    if (!this.source || !this.poiUuid) return;
+    this.sourceDeleted.emit(this.source!.uuid);
+    this.close();
   }
 
   setSourcePath() {

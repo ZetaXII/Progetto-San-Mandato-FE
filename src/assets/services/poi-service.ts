@@ -84,7 +84,24 @@ export class PoiService {
     return this.http.delete<void>(`${this.apiUrl}/delete/${uuid}`);
   }
 
+  // ============ METODI PER LE SOURCES ============
+  getSources(poiUuid: string, type?: string): Observable<Source[]> {
+    let params = new HttpParams();
+    if (type) {
+      params = params.set('type', type);
+    }
+    return this.http.get<Source[]>(`${this.apiUrl}/${poiUuid}/sources`, { params });
+  }
+
+  createSource(poiUuid: string, dto: SourceCreateDto): Observable<Source> {
+    return this.http.post<Source>(`${this.apiUrl}/${poiUuid}/sources`, dto);
+  }
+
   updateSource(poiUuid: string, sourceUuid: string, dto: SourceCreateDto): Observable<Source> {
     return this.http.put<Source>(`${this.apiUrl}/${poiUuid}/sources/${sourceUuid}`, dto);
+  }
+
+  deleteSource(poiUuid: string, sourceUuid: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${poiUuid}/sources/${sourceUuid}`);
   }
 }

@@ -111,6 +111,17 @@ export class PoiDetail {
       });
   }
 
+  onSourceUpdated(updatedSource: Source) {
+    if (this.poi && this.poi.sources) {
+      const idx = this.poi.sources.findIndex(s => s.uuid === updatedSource.uuid);
+      if (idx !== -1) {
+        this.poi.sources[idx] = updatedSource;
+        this.poi = { ...this.poi };
+        this.poiBackup = { ...this.poi };
+      }
+    }
+  }
+
   // CHIUDE LA MODALE
   close() {
     this.poi = null as any;
@@ -142,7 +153,7 @@ export class PoiDetail {
     }
   }
 
-  getFontiByTipologia(tipologia: SourceTypeEnum) {
+  getSourcesByTipologia(tipologia: SourceTypeEnum) {
     return this.poi.sources.filter(source => source.tipologia === tipologia);
   }
 
@@ -152,18 +163,29 @@ export class PoiDetail {
     this.pathSource = sezione + " > ";
   }
 
+  deleteSource(sourceUuid: string) {
+    this.poiService.deleteSource(this.poi.uuid, sourceUuid).subscribe({
+      next: () => {
+        this.poi.sources = this.poi.sources.filter(s => s.uuid !== sourceUuid);
+        this.poi = { ...this.poi };
+        this.poiBackup = { ...this.poi };
+        this._popupAlertService.show('Eliminazione riuscita', 'Fonte eliminata correttamente', 1);
+      },
+      error: (err) => {
+        console.error('Errore eliminazione fonte', err)
+        this._popupAlertService.show("Eliminazione non riuscita (" + err.status + ")", err.message, 3);
+      }
+    });
+  }
+
+  onSourceDeleted(deletedSourceUuid: string) {
+    if (deletedSourceUuid) {
+      this.deleteSource(deletedSourceUuid);
+    }
+  }
+
   closeSourceDetail() {
     this.showSourceModal = false;
     this.selectedSource = null;
-  }
-
-  onSourceUpdated(updatedSource: Source) {
-    if (this.poi && this.poi.sources) {
-      const idx = this.poi.sources.findIndex(s => s.uuid === updatedSource.uuid);
-      if (idx !== -1) {
-        this.poi.sources[idx] = updatedSource;
-        this.poi = { ...this.poi };
-      }
-    }
   }
 }

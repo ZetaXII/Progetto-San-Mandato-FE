@@ -63,8 +63,8 @@
 
         <!-- MODALE DETTAGLIO FONTE -->
         <app-source-detail *ngIf="showSourceModal" [source]="selectedSource" [initialPath]="pathSource"
-            [poiUuid]="poi.uuid" (closeModal)="closeSourceDetail()"
-            (sourceUpdated)="onSourceUpdated($event)"></app-source-detail>
+            [poiUuid]="poi.uuid" (closeModal)="closeSourceDetail()" (sourceUpdated)="onSourceUpdated($event)"
+            (sourceDeleted)="onSourceDeleted(selectedSource?.uuid ?? '')"></app-source-detail>
 
     </div>
 </div>
@@ -242,13 +242,9 @@
         <span class="inter-semibold">Fonti archivistiche</span>
     </div>
     <!-- LISTA FONTI -->
-    <div class="fonti-list long-text scrollable-div">
-        @for (source of getFontiByTipologia(SOURCE_TYPES.ARCHIVISTICA); track source.uuid) {
-        <div class="card-source" (click)="openSourceDetail(source, sections[3].title)">
-            <div class="card-title">
-                {{ source.titolo }}
-            </div>
-        </div>
+    <div class="source-list long-text scrollable-div">
+        @for (source of getSourcesByTipologia(SOURCE_TYPES.ARCHIVISTICA); track source.uuid) {
+        <ng-container *ngTemplateOutlet="cardSource; context: { source: source }"></ng-container>
         } @empty {
         <div class="text-muted py-2">Nessuna source archivistica disponibile</div>
         }
@@ -259,13 +255,9 @@
         <span class="inter-semibold">Fonti Pariegetiche</span>
     </div>
     <!-- LISTA FONTI -->
-    <div class="fonti-list long-text scrollable-div">
-        @for (source of getFontiByTipologia(SOURCE_TYPES.PARIEGETICA); track source.uuid) {
-        <div class="card-source" (click)="openSourceDetail(source, sections[3].title)">
-            <div class="card-title">
-                {{ source.titolo }}
-            </div>
-        </div>
+    <div class="source-list long-text scrollable-div">
+        @for (source of getSourcesByTipologia(SOURCE_TYPES.PARIEGETICA); track source.uuid) {
+        <ng-container *ngTemplateOutlet="cardSource; context: { source: source }"></ng-container>
         } @empty {
         <div class="text-muted py-2">Nessuna source pariegetica disponibile</div>
         }
@@ -276,19 +268,33 @@
         <span class="inter-semibold">Fonti Letterarie</span>
     </div>
     <!-- LISTA FONTI -->
-    <div class="fonti-list long-text scrollable-div">
-        @for (source of getFontiByTipologia(SOURCE_TYPES.LETTERARIA); track source.uuid) {
-        <div class="card-source" (click)="openSourceDetail(source, sections[3].title)">
-            <div class="card-title">
-                {{ source.titolo }}
-            </div>
-        </div>
+    <div class="source-list long-text scrollable-div">
+        @for (source of getSourcesByTipologia(SOURCE_TYPES.LETTERARIA); track source.uuid) {
+        <ng-container *ngTemplateOutlet="cardSource; context: { source: source }"></ng-container>
         } @empty {
         <div class="text-muted py-2">Nessuna source letteraria disponibile</div>
         }
     </div>
     }
 
+</ng-template>
+<!------------------------->
+
+<!-- CARD SOURCE -->
+<ng-template #cardSource let-source="source">
+    <div class="card-source d-flex justify-content-between align-items-center gap-5"
+        (click)="openSourceDetail(source, sections[3].title)">
+        <!-- TITOLO FONTE -->
+        <div class="source-title">
+            {{ source.titolo }}
+        </div>
+        <!-- AZIONI FONTE-->
+        @if(mode === VIEW_MODE.EDIT) {
+        <div class="source-actions" (click)="$event.stopPropagation()">
+            <button class="btn-red btn-actions-custom" (click)="deleteSource(source.uuid)">Elimina</button>
+        </div>
+        }
+    </div>
 </ng-template>
 <!------------------------->
 

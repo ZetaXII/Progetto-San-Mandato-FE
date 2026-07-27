@@ -112,6 +112,11 @@
 <ng-template #btnActions>
     <div class="btn-actions-container d-flex gap-2 justify-content-center align-items-center w-100">
 
+        <!-- BTN ELIMINA -->
+        <button class="btn-red btn-actions-custom" (click)="deleteSource()" *ngIf="mode === VIEW_MODE.VIEW">
+            Elimina
+        </button>
+
         <!-- BTN MODIFICA -->
         <button class="btn-blue btn-actions-custom" (click)="toggleEditSourceMode()" *ngIf="mode === VIEW_MODE.VIEW">
             Modifica
