@@ -37,7 +37,6 @@ export class PoiService {
     this.setPoiList(newList);
   }
 
-  // METODI PER CONTATTARE API
   getAllPois(): Observable<Poi[]> {
     return this.http.get<Poi[]>(`${this.apiUrl}/getAll`);
   }

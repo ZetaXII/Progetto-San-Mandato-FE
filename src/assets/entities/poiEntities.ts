@@ -43,7 +43,9 @@ export interface PageResponse<T> {
 export const arraySecoli: string[] = [
     'XVI',  // 1500
     'XVII', // 1600
-    'XVIII' // 1700
+    'XVIII', // 1700
+    'XIX', // 1800
+    'XX' // 1900
 ];
 
 export const gruppiArea: string[] = [

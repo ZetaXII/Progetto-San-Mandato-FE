@@ -63,7 +63,8 @@
 
         <!-- MODALE DETTAGLIO FONTE -->
         <app-source-detail *ngIf="showSourceModal" [source]="selectedSource" [initialPath]="pathSource"
-            [poiUuid]="poi.uuid" (closeModal)="closeSourceDetail()" (sourceUpdated)="onSourceUpdated($event)"
+            [poiUuid]="poi.uuid" [isCreatingSource]="isCreatingSource" (closeModal)="closeSourceDetail()"
+            (sourceUpdated)="onSourceUpdated($event)" (sourceCreated)="onSourceCreated($event)"
             (sourceDeleted)="onSourceDeleted(selectedSource?.uuid ?? '')"></app-source-detail>
 
     </div>
@@ -71,7 +72,6 @@
 
 <!-- TEMPLATE BTN ACTIONS -->
 <ng-template #btnActions>
-
     <div class="d-flex gap-2 justify-content-center align-items-center w-100">
 
         <!-- BTN MODIFICA -->
@@ -236,6 +236,13 @@
 <!-- FONTI STORICHE -->
 <ng-template #fontiStoriche>
     @if (selectedSection === 3) {
+
+    <!-- BTN AGGIUNGI FONTE -->
+    @if(mode === VIEW_MODE.EDIT) {
+    <button class="btn-green btn-actions-custom" (click)="addSource()">
+        Nuova fonte
+    </button>
+    }
 
     <!-- FONTI ARCHIVISTICHE -->
     <div class="poi-subtitle fw-semibold d-flex align-items-center pt-4">

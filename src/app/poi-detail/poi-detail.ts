@@ -35,6 +35,7 @@ export class PoiDetail {
   selectedSection: number = 0;
   selectedSource: Source | null = null;
   showSourceModal = false;
+  isCreatingSource = false;
   pathSource = "";
   poiBackup!: Poi;
   isDesktop = window.innerWidth >= 769;
@@ -61,15 +62,7 @@ export class PoiDetail {
       { id: 4, title: "Bibliografia" },
     ];
     // SETTO LA SEZIONE DA MOSTRARE ALL'AVVIO
-    this.selectedSection = this.isDesktop ? 1 : 0;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (this.poi && !target.closest('.poi-detail-modal') && !target.closest('.card-poi')) {
-      this.close();
-    }
+    this.selectedSection = this.isDesktop ? this.selectedSection || 1 : 0;
   }
 
   selectSection(dotNumber: number) {
@@ -118,7 +111,17 @@ export class PoiDetail {
         this.poi.sources[idx] = updatedSource;
         this.poi = { ...this.poi };
         this.poiBackup = { ...this.poi };
+        this.poiService.updatePoiListElement(this.poi);
       }
+    }
+  }
+
+  onSourceCreated(createdSource: Source) {
+    if (this.poi && this.poi.sources) {
+      this.poi.sources.push(createdSource);
+      this.poi = { ...this.poi };
+      this.poiBackup = { ...this.poi };
+      this.poiService.updatePoiListElement(this.poi);
     }
   }
 
@@ -157,8 +160,8 @@ export class PoiDetail {
     return this.poi.sources.filter(source => source.tipologia === tipologia);
   }
 
-  openSourceDetail(source: any, sezione?: string) {
-    this.selectedSource = source;
+  openSourceDetail(source: Source | null, sezione?: string) {
+    this.selectedSource = source!;
     this.showSourceModal = true;
     this.pathSource = sezione + " > ";
   }
@@ -185,7 +188,13 @@ export class PoiDetail {
   }
 
   closeSourceDetail() {
+    this.isCreatingSource = false;
     this.showSourceModal = false;
     this.selectedSource = null;
+  }
+
+  addSource() {
+    this.isCreatingSource = true;
+    this.openSourceDetail(null, this.sections[3].title + ' > Nuova fonte');
   }
 }

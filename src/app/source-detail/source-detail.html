@@ -6,11 +6,16 @@
         <!-- BTN CHIUDI MODALE -->
         <div class="d-flex justify-content-start align-items-center gap-3 mb-3">
             <i class="ri-arrow-left-s-line btn-back" (click)="close()"></i>
+            @if (mode === VIEW_MODE.CREATE) {
+            <span>{{initialPath}}</span>
+            }
+            @else {
             <span>{{path}}</span>
+            }
         </div>
 
         <!-- INFO FONTE -->
-        <div class="source-body" *ngIf="source">
+        <div class="source-body" *ngIf="source || mode === VIEW_MODE.CREATE">
             <ng-container *ngTemplateOutlet="sourceTitolo"></ng-container>
             <ng-container *ngTemplateOutlet="sourceSecoloAnno"></ng-container>
             <ng-container *ngTemplateOutlet="sourceRiferimento"></ng-container>
@@ -25,19 +30,19 @@
 
 <!-- TEMPLATE TITOLO + TIPOLOGIA -->
 <ng-template #sourceTitolo>
-    <ng-container *ngIf="source">
-        @if (mode === VIEW_MODE.EDIT) {
+    <ng-container *ngIf="source || mode === VIEW_MODE.CREATE">
+        @if (mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE) {
         <!-- TITOLO EDIT -->
         <div class="mb-3">
             <label class="form-label inter-semibold">Titolo:</label>
-            <input type="text" [(ngModel)]="source.titolo" class="form-control">
+            <input type="text" [(ngModel)]="source!.titolo" class="form-control">
         </div>
 
         <!-- TIPOLOGIA EDIT -->
         <div class="mb-3">
             <label class="form-label inter-semibold">Tipologia:</label>
-            <select [(ngModel)]="source.tipologia" class="form-select">
-                @for (type of sourceTypes; track type) {
+            <select [(ngModel)]="source!.tipologia" class="form-select">
+                @for (type of SOURCE_TYPES; track type) {
                 <option [value]="type">{{ type }}</option>
                 }
             </select>
@@ -45,7 +50,7 @@
         } @else {
         <!-- TITOLO VIEW -->
         <h1 class="source-titolo">
-            {{ source.titolo }}
+            {{ source!.titolo }}
         </h1>
         }
     </ng-container>
@@ -53,24 +58,26 @@
 
 <!-- TEMPLATE SECOLO / ANNO -->
 <ng-template #sourceSecoloAnno>
-    <ng-container *ngIf="source">
-        @if (mode === VIEW_MODE.EDIT) {
+    <ng-container *ngIf="source || mode === VIEW_MODE.CREATE">
+        @if (mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE) {
         <div class="row">
             <!-- SECOLO -->
             <div class="col-6 mb-3">
                 <label class="form-label inter-semibold">Secolo:</label>
-                <input type="text" [(ngModel)]="source.secolo" class="form-control" placeholder="es. XVI">
+                <select [(ngModel)]="source!.secolo" class="form-control">
+                    <option *ngFor="let secolo of SECOLI" [value]="secolo">{{ secolo }}</option>
+                </select>
             </div>
 
             <!-- ANNO -->
             <div class="col-6 mb-3">
                 <label class="form-label inter-semibold">Anno:</label>
-                <input type="number" [(ngModel)]="source.anno" class="form-control" placeholder="es. 1545">
+                <input type="number" [(ngModel)]="source!.anno" class="form-control">
             </div>
         </div>
         } @else {
         <p class="source-secolo-anno-pill">
-            {{ source.secolo }}&deg; Secolo &bull; Anno {{ source.anno }}
+            {{ source!.secolo }}&deg; Secolo &bull; Anno {{ source!.anno }}
         </p>
         }
     </ng-container>
@@ -78,15 +85,15 @@
 
 <!-- TEMPLATE RIFERIMENTO -->
 <ng-template #sourceRiferimento>
-    <ng-container *ngIf="source">
-        @if (mode === VIEW_MODE.EDIT) {
+    <ng-container *ngIf="source || mode === VIEW_MODE.CREATE">
+        @if (mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE) {
         <div class="mb-3">
             <label class="form-label inter-semibold">Riferimento:</label>
-            <input type="text" [(ngModel)]="source.riferimento" class="form-control">
+            <input type="text" [(ngModel)]="source!.riferimento" class="form-control">
         </div>
         } @else {
         <h2 class="source-riferimento">
-            {{ source.riferimento }}
+            {{ source!.riferimento }}
         </h2>
         }
     </ng-container>
@@ -94,15 +101,15 @@
 
 <!-- TEMPLATE TRASCRIZIONE -->
 <ng-template #sourceTrascrizione>
-    <ng-container *ngIf="source">
-        @if (mode === VIEW_MODE.EDIT) {
+    <ng-container *ngIf="source || mode === VIEW_MODE.CREATE">
+        @if (mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE) {
         <div class="trascrizione-edit-wrapper">
             <label class="form-label inter-semibold">Trascrizione:</label>
-            <textarea [(ngModel)]="source.trascrizione" class="form-control trascrizione-textarea"></textarea>
+            <textarea [(ngModel)]="source!.trascrizione" class="form-control trascrizione-textarea"></textarea>
         </div>
         } @else {
         <p class="source-trascrizione">
-            {{ source.trascrizione }}
+            {{ source!.trascrizione }}
         </p>
         }
     </ng-container>
@@ -123,7 +130,9 @@
         </button>
 
         <!-- BTN ANNULLA -->
-        <button class="btn-red btn-actions-custom" (click)="toggleViewSourceMode()" *ngIf="mode === VIEW_MODE.EDIT">
+        <button class="btn-red btn-actions-custom"
+            (click)="mode === VIEW_MODE.CREATE ? close() : toggleViewSourceMode()"
+            *ngIf="mode === VIEW_MODE.EDIT || mode === VIEW_MODE.CREATE">
             Annulla
         </button>
 

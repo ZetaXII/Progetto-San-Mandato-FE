@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Source, SourceTypeEnum } from '../../assets/entities/sourceEntities';
+import { arraySecoli } from '../../assets/entities/poiEntities';
+import { Source, SourceCreateDto, SourceTypeEnum } from '../../assets/entities/sourceEntities';
 import { ViewMode } from '../../assets/entities/ViewMode';
 import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
@@ -15,14 +16,17 @@ import { PopupAlertService } from '../../assets/services/popup-alert-service';
 })
 export class SourceDetail implements OnChanges {
   VIEW_MODE = ViewMode;
-  sourceTypes = Object.values(SourceTypeEnum);
+  SOURCE_TYPES = Object.values(SourceTypeEnum);
+  SECOLI = arraySecoli;
 
   mode: ViewMode = this.VIEW_MODE.VIEW;
   @Input() source!: Source | null;
   @Input() initialPath!: string | null;
   @Input() poiUuid!: string | null;
+  @Input() isCreatingSource!: boolean;
   @Output() closeModal = new EventEmitter<void>();
   @Output() sourceUpdated = new EventEmitter<Source>();
+  @Output() sourceCreated = new EventEmitter<Source>();
   @Output() sourceDeleted = new EventEmitter<string>();
   sourceBackup!: Source | null;
   path!: string | null;
@@ -34,6 +38,18 @@ export class SourceDetail implements OnChanges {
 
   ngOnChanges(): void {
     this.setSourcePath();
+    if (this.isCreatingSource) {
+      this.mode = this.VIEW_MODE.CREATE;
+      this.source = {
+        uuid: '',
+        titolo: '',
+        tipologia: SourceTypeEnum.PARIEGETICA,
+        riferimento: '',
+        secolo: null,
+        anno: null,
+        trascrizione: ''
+      };
+    }
   }
 
   close() {
@@ -58,7 +74,7 @@ export class SourceDetail implements OnChanges {
   saveSource() {
     if (!this.source || !this.poiUuid) return;
 
-    const sourceCreateDto = {
+    const sourceCreateDto: SourceCreateDto = {
       titolo: this.source.titolo,
       tipologia: this.source.tipologia,
       riferimento: this.source.riferimento,
@@ -67,20 +83,39 @@ export class SourceDetail implements OnChanges {
       trascrizione: this.source.trascrizione
     };
 
-    this.poiService.updateSource(this.poiUuid, this.source.uuid, sourceCreateDto).subscribe({
-      next: (updatedSource) => {
-        this.source = structuredClone(updatedSource);
-        this.sourceBackup = structuredClone(updatedSource);
-        this.sourceUpdated.emit(updatedSource);
-        this.popupAlertService.show('Salvataggio riuscito', 'Fonte salvata correttamente', 1);
-        this.mode = this.VIEW_MODE.VIEW;
-        this.setSourcePath();
-      },
-      error: (err) => {
-        console.error('Errore aggiornamento fonte', err);
-        this.popupAlertService.show("Salvataggio non riuscito (" + err.status + ")", err.message, 3);
-      }
-    });
+    if (this.mode === this.VIEW_MODE.CREATE) {
+      // CREAZIONE
+      this.poiService.createSource(this.poiUuid, sourceCreateDto).subscribe({
+        next: (createdSource) => {
+          this.source = structuredClone(createdSource);
+          this.sourceBackup = structuredClone(createdSource);
+          this.sourceCreated.emit(createdSource);
+          this.popupAlertService.show('Creazione riuscita', 'Fonte creata correttamente', 1);
+          this.mode = this.VIEW_MODE.VIEW;
+          this.setSourcePath();
+        },
+        error: (err) => {
+          console.error('Errore creazione fonte', err);
+          this.popupAlertService.show("Creazione non riuscita (" + err.status + ")", err.message, 3);
+        }
+      });
+    } else {
+      // MODIFICA
+      this.poiService.updateSource(this.poiUuid, this.source.uuid, sourceCreateDto).subscribe({
+        next: (updatedSource) => {
+          this.source = structuredClone(updatedSource);
+          this.sourceBackup = structuredClone(updatedSource);
+          this.sourceUpdated.emit(updatedSource);
+          this.popupAlertService.show('Salvataggio riuscito', 'Fonte salvata correttamente', 1);
+          this.mode = this.VIEW_MODE.VIEW;
+          this.setSourcePath();
+        },
+        error: (err) => {
+          console.error('Errore aggiornamento fonte', err);
+          this.popupAlertService.show("Salvataggio non riuscito (" + err.status + ")", err.message, 3);
+        }
+      });
+    }
   }
 
   deleteSource() {
