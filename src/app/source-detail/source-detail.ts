@@ -7,6 +7,8 @@ import { ViewMode } from '../../assets/entities/ViewMode';
 import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
 
+import { DialogService } from '../../assets/services/dialog-service';
+
 @Component({
   selector: 'app-source-detail',
   imports: [CommonModule, FormsModule],
@@ -33,7 +35,8 @@ export class SourceDetail implements OnChanges {
 
   constructor(
     private poiService: PoiService,
-    private popupAlertService: PopupAlertService
+    private popupAlertService: PopupAlertService,
+    private dialogService: DialogService
   ) { }
 
   ngOnChanges(): void {
@@ -84,7 +87,7 @@ export class SourceDetail implements OnChanges {
     };
 
     if (this.mode === this.VIEW_MODE.CREATE) {
-      // CREAZIONE
+      // CREA FONTE
       this.poiService.createSource(this.poiUuid, sourceCreateDto).subscribe({
         next: (createdSource) => {
           this.source = structuredClone(createdSource);
@@ -100,7 +103,7 @@ export class SourceDetail implements OnChanges {
         }
       });
     } else {
-      // MODIFICA
+      // MODIFICA FONTE
       this.poiService.updateSource(this.poiUuid, this.source.uuid, sourceCreateDto).subscribe({
         next: (updatedSource) => {
           this.source = structuredClone(updatedSource);
@@ -118,10 +121,19 @@ export class SourceDetail implements OnChanges {
     }
   }
 
+  // ELIMINA FONTE
   deleteSource() {
-    if (!this.source || !this.poiUuid) return;
-    this.sourceDeleted.emit(this.source!.uuid);
-    this.close();
+    this.dialogService.confirm({
+      titolo: 'Elimina Fonte',
+      messaggio: `Sei sicuro di voler procedere con l'eliminazione della fonte '${this.source?.titolo}'? L'operazione non è reversibile.`,
+      testoProcedi: 'Procedi',
+      testoAnnulla: 'Annulla'
+    }).then((confirmed) => {
+      if (confirmed && this.source && this.poiUuid) {
+        this.sourceDeleted.emit(this.source.uuid);
+        this.close();
+      }
+    });
   }
 
   setSourcePath() {

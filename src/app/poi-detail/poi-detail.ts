@@ -5,6 +5,7 @@ import { arraySecoli, gruppiArea, Poi, PoiCreateDto } from '../../assets/entitie
 import { Source, SourceTypeEnum } from '../../assets/entities/sourceEntities';
 import { ViewMode } from '../../assets/entities/ViewMode';
 import { MarkdownPipe } from "../../assets/pipes/markdown-pipe";
+import { DialogService } from '../../assets/services/dialog-service';
 import { PhotoManager } from '../../assets/services/photo-manager';
 import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
@@ -44,6 +45,7 @@ export class PoiDetail {
     public photoManagerService: PhotoManager,
     public poiService: PoiService,
     private _popupAlertService: PopupAlertService,
+    private dialogService: DialogService
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -121,6 +123,8 @@ export class PoiDetail {
       this.poi.sources.push(createdSource);
       this.poi = { ...this.poi };
       this.poiBackup = { ...this.poi };
+      this.selectedSource = createdSource;
+      this.isCreatingSource = false;
       this.poiService.updatePoiListElement(this.poi);
     }
   }
@@ -150,7 +154,6 @@ export class PoiDetail {
   @HostListener('window:resize')
   onResize() {
     this.isDesktop = window.innerWidth >= 769;
-    // SE LO SCHERMO É MAGGIORE DI 769px E SONO NELLA SEZIONE "DETTAGLIO" ALLORA LO SPOSTO ALLA SEZIONE SUCCESSIVA DA DESKTOP
     if (this.isDesktop && this.selectedSection === 0) {
       this.selectedSection = 1;
     }
@@ -166,24 +169,45 @@ export class PoiDetail {
     this.pathSource = sezione + " > ";
   }
 
-  deleteSource(sourceUuid: string) {
-    this.poiService.deleteSource(this.poi.uuid, sourceUuid).subscribe({
-      next: () => {
-        this.poi.sources = this.poi.sources.filter(s => s.uuid !== sourceUuid);
-        this.poi = { ...this.poi };
-        this.poiBackup = { ...this.poi };
-        this._popupAlertService.show('Eliminazione riuscita', 'Fonte eliminata correttamente', 1);
-      },
-      error: (err) => {
-        console.error('Errore eliminazione fonte', err)
-        this._popupAlertService.show("Eliminazione non riuscita (" + err.status + ")", err.message, 3);
+  // ELIMINA FONTE
+  deleteSource(source: Source, askConfirmation = true) {
+    if (!askConfirmation) {
+      this.executeDeleteSource(source);
+      return;
+    }
+
+    this.dialogService.confirm({
+      titolo: 'Elimina Fonte',
+      messaggio: `Sei sicuro di voler procedere con l'eliminazione della fonte '${source?.titolo}'? L'operazione non è reversibile.`,
+      testoProcedi: 'Procedi',
+      testoAnnulla: 'Annulla'
+    }).then((confirmed) => {
+      if (confirmed) {
+        this.executeDeleteSource(source);
       }
     });
   }
 
-  onSourceDeleted(deletedSourceUuid: string) {
-    if (deletedSourceUuid) {
-      this.deleteSource(deletedSourceUuid);
+  private executeDeleteSource(source: Source) {
+    if (source && this.poi?.uuid) {
+      this.poiService.deleteSource(this.poi.uuid, source.uuid).subscribe({
+        next: () => {
+          this.poi.sources = this.poi.sources.filter(s => s.uuid !== source.uuid);
+          this.poi = { ...this.poi };
+          this.poiBackup = { ...this.poi };
+          this._popupAlertService.show('Eliminazione riuscita', 'Fonte eliminata correttamente', 1);
+        },
+        error: (err) => {
+          console.error('Errore eliminazione fonte', err)
+          this._popupAlertService.show("Eliminazione non riuscita (" + err.status + ")", err.message, 3);
+        }
+      });
+    }
+  }
+
+  onSourceDeleted(deletedSource: Source | null) {
+    if (deletedSource) {
+      this.deleteSource(deletedSource, false);
     }
   }
 

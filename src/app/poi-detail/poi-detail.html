@@ -65,7 +65,7 @@
         <app-source-detail *ngIf="showSourceModal" [source]="selectedSource" [initialPath]="pathSource"
             [poiUuid]="poi.uuid" [isCreatingSource]="isCreatingSource" (closeModal)="closeSourceDetail()"
             (sourceUpdated)="onSourceUpdated($event)" (sourceCreated)="onSourceCreated($event)"
-            (sourceDeleted)="onSourceDeleted(selectedSource?.uuid ?? '')"></app-source-detail>
+            (sourceDeleted)="onSourceDeleted(selectedSource ?? null)"></app-source-detail>
 
     </div>
 </div>
@@ -298,7 +298,7 @@
         <!-- AZIONI FONTE-->
         @if(mode === VIEW_MODE.EDIT) {
         <div class="source-actions" (click)="$event.stopPropagation()">
-            <button class="btn-red btn-actions-custom" (click)="deleteSource(source.uuid)">Elimina</button>
+            <button class="btn-red btn-actions-custom" (click)="deleteSource(source)">Elimina</button>
         </div>
         }
     </div>
