@@ -1,1 +1,50 @@
-<p>mappa works!</p>
+<div class="map-page-container">
+
+  <!-- Map container -->
+  <div id="map" class="map-viewport"></div>
+
+  <!-- Pannello Controllo Layer (In alto a destra) -->
+  <div class="map-layers-panel">
+    <div class="layers-panel-header">
+      <i class="ri-stack-line"></i>
+      <span class="inter-semibold">Livelli Mappa</span>
+    </div>
+
+    <div class="layers-panel-body">
+      @for (layer of overlayLayers; track layer.id) {
+      <div class="layer-item">
+        <div class="layer-main-info">
+          <label class="layer-checkbox-label">
+            <input type="checkbox" [checked]="layer.visible" (change)="toggleOverlayLayer(layer)" />
+            <span class="layer-name inter-medium">{{ layer.name }}</span>
+          </label>
+        </div>
+
+        <!-- Slider opacità (visibile solo se il layer è attivo) -->
+        @if (layer.visible) {
+        <div class="layer-opacity-control">
+          <span class="opacity-label inter-regular">Opacità: {{ (layer.opacity * 100) | number:'1.0-0' }}%</span>
+          <input type="range" min="0" max="1" step="0.05" [value]="layer.opacity"
+            (input)="setOverlayOpacity(layer, +$any($event.target).value)" />
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Spinner di caricamento dettaglio -->
+  @if (isLoadingPoi || isLoadingTif) {
+  <div class="map-loading-overlay">
+    <div class="spinner-border text-danger" role="status"></div>
+  </div>
+  }
+
+  <!-- Modale Dettaglio POI -->
+  @defer (when selectedPoi !== null) {
+  @if (selectedPoi) {
+  <app-poi-detail [poi]="selectedPoi" (closeDetailPoi)="closePoiDetail()"></app-poi-detail>
+  }
+  }
+
+</div>
