@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { arraySecoli } from '../../assets/entities/poiEntities';
 import { Source, SourceCreateDto, SourceTypeEnum } from '../../assets/entities/sourceEntities';
 import { ViewMode } from '../../assets/entities/ViewMode';
+import { DialogService } from '../../assets/services/dialog-service';
 import { PoiService } from '../../assets/services/poi-service';
 import { PopupAlertService } from '../../assets/services/popup-alert-service';
-
-import { DialogService } from '../../assets/services/dialog-service';
 
 @Component({
   selector: 'app-source-detail',

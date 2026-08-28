@@ -1,3 +1,5 @@
+@use '../styles' as *;
+
 .popup {
     position: fixed;
     bottom: 20px;
@@ -6,7 +8,7 @@
     max-width: 350px;
     padding: 16px;
     border-radius: 8px;
-    color: white;
+    color: $white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     animation: slideIn 0.3s ease;
     z-index: 99999999;
